@@ -1,6 +1,6 @@
 ## Create a repository checklist
 
-- [ ] the task provides required feedback and has been submitted (needs grading)
+- [x] the task provides required feedback and has been submitted (needs grading)
 - [ ] the ability to clone the repository to the teacher's computer
 - [ ] there is README.md formatted as expected
 - [ ] `README.md` contains required information
