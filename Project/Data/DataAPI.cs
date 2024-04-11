@@ -16,6 +16,7 @@ namespace Data
     }
     public class DataLayer : DataAbstractAPI
     {
-        public DataLayer() {}
+        public DataLayer() {
+        }
     }
 }

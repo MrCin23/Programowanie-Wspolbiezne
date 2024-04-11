@@ -8,27 +8,52 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    internal class Ball : INotifyPropertyChanged
+    public class Ball : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private float size { get; }
         private float density { get; }
-        private float Xvelocity { get; }
-        private float Yvelocity { get; }
-        private float x {  get; }
-        private float y { get; }
+        private float Xvelocity;
+        private float Yvelocity;
+        public float x { get; set; }
+        public float y { get; set; }
 
-        public Ball(float x, float y)
+        public float getXVelocity()
         {
-            this.x = x;
-            this.y = y;
+            return Xvelocity;
+        }
+
+        public float getYVelocity()
+        {
+            return Yvelocity;
+        }
+
+        public void setXVelocity(float xVelocity)
+        {
+            Xvelocity = xVelocity;
+        }
+
+        public void setYVelocity(float yVelocity)
+        {
+            Yvelocity = yVelocity;
+        }
+
+        Random rnd = new Random();
+        public Ball()
+        {
+            this.x = randomPosition(300);
+            this.y = randomPosition(100);
             this.Xvelocity = randomVelocity();
             this.Xvelocity = randomVelocity();
 
         }
 
+        private float randomPosition(int maxPositon) {
+            return ((float)rnd.Next(0, maxPositon) / 10);
+        }
+
         private float randomVelocity() {
-            Random rnd = new Random();
+
             return ((float)rnd.Next(0, 200)) / 10 - 10  ;
         }
 
