@@ -11,12 +11,35 @@ namespace Logic
     {
         public int sizeX {  get; }
         public int sizeY { get; }
-        internal Ball[] balls {  get; }
+        internal Ball[] balls;
 
-        public Board(int sizeX, int sizeY)
+        public Ball[] getBalls()
+        {
+            return balls;
+        }
+
+        public Board(int sizeX, int sizeY, int amount)
         {
             this.sizeX = sizeX;
             this.sizeY = sizeY;
+            this.balls = Logic.createBalls(sizeX, sizeY, amount);
+        }
+
+        public void checkBorderCollision() 
+        {
+            foreach (Ball ball in balls)
+            {
+                if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX)
+                {
+                    Logic.changeXdirection(ball);
+                    Logic.updatePosition(ball);
+                }
+                if (ball.y + ball.getSize() >= this.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= this.sizeY)
+                {
+                    Logic.changeYdirection(ball);
+                    Logic.updatePosition(ball);
+                }
+            }
         }
     }
 }

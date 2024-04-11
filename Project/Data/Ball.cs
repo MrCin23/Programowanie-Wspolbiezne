@@ -8,58 +8,61 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class Ball : INotifyPropertyChanged
+    public class Ball : DataAbstractAPI, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private float size { get; }
+        public override event PropertyChangedEventHandler PropertyChanged;
+
+        private float size;
         private float density { get; }
         private float Xvelocity;
         private float Yvelocity;
         public float x { get; set; }
         public float y { get; set; }
+        public static readonly float maxVelocity = 20.0f;
 
-        public float getXVelocity()
+        public override float getSize() 
+        { 
+            return size; 
+        }
+
+        public override float getXVelocity()
         {
             return Xvelocity;
         }
 
-        public float getYVelocity()
+        public override float getYVelocity()
         {
             return Yvelocity;
         }
 
-        public void setXVelocity(float xVelocity)
+        public override void setXVelocity(float xVelocity)
         {
             Xvelocity = xVelocity;
         }
 
-        public void setYVelocity(float yVelocity)
+        public override void setYVelocity(float yVelocity)
         {
             Yvelocity = yVelocity;
         }
 
         Random rnd = new Random();
-        public Ball()
+        public Ball(int maxX, int maxY)
         {
-            this.x = randomPosition(300);
-            this.y = randomPosition(100);
+            Console.WriteLine(this.size);
+            this.size = 5.0f;
+            this.x = randomPosition(maxX);
+            this.y = randomPosition(maxY);
             this.Xvelocity = randomVelocity();
             this.Xvelocity = randomVelocity();
-
         }
 
         private float randomPosition(int maxPositon) {
-            return ((float)rnd.Next(0, maxPositon) / 10);
+            return (float)rnd.NextDouble() * (maxPositon - this.size) + this.size/2;
+            //return (float)rnd.Next((int)(this.size * 5), (int)(maxPositon * 10 - this.size * 5)) / 10.0f;
         }
 
         private float randomVelocity() {
-
-            return ((float)rnd.Next(0, 200)) / 10 - 10  ;
+            return (float)(rnd.NextDouble() * (maxVelocity) - maxVelocity/2);
         }
-
-
-        //Change position w Logic Layer
-
-
     }
 }

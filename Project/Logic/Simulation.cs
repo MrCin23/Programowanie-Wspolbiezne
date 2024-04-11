@@ -3,27 +3,53 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Logic
 {
     internal class Simulation
     {
-        private float frequency = 100;
+        
         private Board board;
+        private bool running;
 
-        public void changePosition(Board board)
+        public Simulation(Board board) 
+        { 
+            this.board = board;
+            this.running = false;
+        }
+
+        public bool isRunning() { return running; }
+
+        public void startSimulation()
         {
-            for (int i = 0; i < board.balls.Length; i++)
+            if(!running)
             {
-                board.balls[i].x = board.balls[i].x + board.balls[i].getXVelocity() * (1 / frequency);
-                board.balls[i].y = board.balls[i].y + board.balls[i].getYVelocity() * (1 / frequency);
+                this.running = true;
+            }
+            mainLoop();
+        }
+
+        public void stopSimulation() 
+        { 
+            if(running)
+            {
+                this.running = false;
+            }
+            mainLoop();
+        }
+
+
+        public void mainLoop()
+        {
+            while(this.running)
+            {
+                this.board.checkBorderCollision();
+                Logic.updateBoard(this.board);
+                Thread.Sleep(10);
             }
         }
 
-        public Ball detectBandCollision(Board board)
-        {
-            return null;
-        }
     }
 }
