@@ -1,11 +1,6 @@
-# Programowanie-Wspolbiezne
-Projekt z programowania współbieżnego
+## Working Group
 
-## Create a repository checklist
-
-- [x] the task provides required feedback and has been submitted (needs grading)
-- [ ] the ability to clone the repository to the teacher's computer
-- [x] there is README.md formatted as expected
-- [x] `README.md` contains required information
-- [ ] build succeeded
-- [x] all UTs are green
+| Name Surname (initials) | GUID                                     |
+| ----------------------- | ---------------------------------------- |
+| MrCin                   | `{e55eddad-4b90-4dd6-81b4-ca59fcf4dfae}` |
+| Piotrolinek             | `{548e3bc1-6ea6-460d-896e-d5eb335eff62}` |
