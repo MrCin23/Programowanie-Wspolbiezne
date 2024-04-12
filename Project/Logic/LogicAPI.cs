@@ -8,6 +8,7 @@ namespace Logic
 {
     public abstract class LogicAbstractAPI
     {
+        public abstract Board getBoard();
         public abstract bool isRunning();
         public abstract void startSimulation();
         

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace Data
 {
     public abstract class DataAbstractAPI
     {
+        public abstract float x { get; set; }
+        public abstract float y { get; set; }
         public abstract event PropertyChangedEventHandler PropertyChanged;
         public abstract float getSize();
         public abstract float getXVelocity();
@@ -19,5 +22,6 @@ namespace Data
         {
             return new Ball(maxX, maxY);
         }
+        public abstract void RaisePropertyChanged([CallerMemberName] string propertyName = "");
     }
 }

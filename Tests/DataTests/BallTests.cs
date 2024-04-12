@@ -1,4 +1,5 @@
 ﻿using Data;
+using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions;
 
 namespace DataTests
 {
@@ -9,7 +10,7 @@ namespace DataTests
         public void getSizeTest()
         {
             // Arrange
-            var ball = new Ball(100, 100);
+            var ball = DataAbstractAPI.CreateDataAPI(100, 100);
 
             // Act
             var result = ball.getSize();
@@ -23,22 +24,22 @@ namespace DataTests
         public void setXVelocityTest()
         {
             // Arrange
-            var ball = new Ball(100, 100);
+            var api = DataAbstractAPI.CreateDataAPI(100, 100);
             float xVelocity = 10.0f;
 
             // Act
-            ball.setXVelocity(
+            api.setXVelocity(
                 xVelocity);
 
             // Assert
-            Assert.That(xVelocity, Is.EqualTo(ball.getXVelocity()));
+            Assert.That(xVelocity, Is.EqualTo(api.getXVelocity()));
         }
 
         [Test]
         public void setYVelocityTest()
         {
             // Arrange
-            var ball = new Ball(100, 100);
+            var ball = DataAbstractAPI.CreateDataAPI(100, 100);
             float yVelocity = 10.0f;
 
             // Act
@@ -47,6 +48,20 @@ namespace DataTests
 
             // Assert
             Assert.That(yVelocity, Is.EqualTo(ball.getYVelocity()));
+        }
+
+        [Test]
+        public void positionTest()
+        {
+            var ball = DataAbstractAPI.CreateDataAPI(100, 100);
+            float posx = 50;
+            float posy = 50;
+
+            ball.x = posx;
+            ball.y = posy;
+
+            Assert.That(posx, Is.EqualTo(ball.x));
+            Assert.That(posy, Is.EqualTo(ball.y));
         }
     }
 }

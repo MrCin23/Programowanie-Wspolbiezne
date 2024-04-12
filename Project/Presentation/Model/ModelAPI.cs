@@ -16,7 +16,7 @@ namespace Model
         }
         public abstract void startSimulation();
         public abstract void stopSimulation();
-        public abstract float[][] getCoordinates()
+        public abstract float[][] getCoordinates();
     }
 
 

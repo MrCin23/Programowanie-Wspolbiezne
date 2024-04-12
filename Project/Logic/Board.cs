@@ -11,9 +11,9 @@ namespace Logic
     {
         public int sizeX {  get; }
         public int sizeY { get; }
-        internal Ball[] balls;
+        internal DataAbstractAPI[] balls;
 
-        public Ball[] getBalls()
+        public DataAbstractAPI[] getBalls()
         {
             return balls;
         }
@@ -27,7 +27,7 @@ namespace Logic
 
         public void checkBorderCollision() 
         {
-            foreach (Ball ball in balls)
+            foreach (DataAbstractAPI ball in balls)
             {
                 if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX)
                 {

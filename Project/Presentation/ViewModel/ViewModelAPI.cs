@@ -24,8 +24,8 @@ namespace ViewModel
         private ModelAbstractAPI model;
         public ViewModel(ModelAbstractAPI model) { 
             this.model = model;
-            //startSimulation = new RelayCommand(() => ClickHandler());
-            //stopSimulation = new RelayCommand(() => ExitClickHandler());
+            startSimulation = new RelayCommand(() => startSimulationHandler());
+            stopSimulation = new RelayCommand(() => stopSimulationHandler());
         }
         private void startSimulationHandler()
         {

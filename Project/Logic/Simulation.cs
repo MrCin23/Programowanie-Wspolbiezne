@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    internal class Simulation : LogicAbstractAPI
+    public class Simulation : LogicAbstractAPI
     {
-        
+
         private Board board;
         private bool running;
 
@@ -18,6 +18,11 @@ namespace Logic
         { 
             this.board = board;
             this.running = false;
+        }
+
+        public override Board getBoard()
+        {
+            return board;
         }
 
         public override bool isRunning() { return running; }

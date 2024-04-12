@@ -1,5 +1,4 @@
 ﻿using Logic;
-using Data;
 using NUnit.Framework;
 using System;
 
@@ -37,9 +36,14 @@ namespace LogicTests
         public void changeXdirectionTest()
         {
             // Arrange
-            Ball ball = new Ball(100, 100);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
+
+            //Ball ball = new Ball(100, 100);
 
             // Act
+            var board = api.getBoard();
+            var balls = board.getBalls();
+            var ball = balls[0];
             ball.setXVelocity(5);
             ball.setYVelocity(0);
             Logic.Logic.changeXdirection(ball);
@@ -52,7 +56,17 @@ namespace LogicTests
         public void changeYdirectionTest()
         {
             // Arrange
-            Ball ball = new Ball(100, 100);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
+
+            //Ball ball = new Ball(100, 100);
+
+            // Act
+            var board = api.getBoard();
+            var balls = board.getBalls();
+            var ball = balls[0];
+            ball.setXVelocity(5);
+            ball.setYVelocity(0);
+            Logic.Logic.changeXdirection(ball);
 
             // Act
             ball.setXVelocity(0);
@@ -67,7 +81,17 @@ namespace LogicTests
         public void updatePositionTest()
         {
             // Arrange
-            Ball ball = new Ball(100, 100);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
+
+            //Ball ball = new Ball(100, 100);
+
+            // Act
+            var board = api.getBoard();
+            var balls = board.getBalls();
+            var ball = balls[0];
+            ball.setXVelocity(5);
+            ball.setYVelocity(0);
+            Logic.Logic.changeXdirection(ball);
 
             // Act
             ball.setXVelocity(5);

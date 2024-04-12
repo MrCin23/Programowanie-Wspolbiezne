@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,8 @@ namespace Data
         private float density { get; }
         private float Xvelocity;
         private float Yvelocity;
-        public float x { get; set; }
-        public float y { get; set; }
+        public override float x { get; set; }
+        public override float y { get; set; }
         public static readonly float maxVelocity = 20.0f;
 
         public override float getSize() 
@@ -62,6 +63,10 @@ namespace Data
 
         private float randomVelocity() {
             return (float)(rnd.NextDouble() * (maxVelocity) - maxVelocity/2);
+        }
+        public override void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
