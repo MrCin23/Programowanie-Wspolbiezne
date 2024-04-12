@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Logic
 
         private Board board;
         private bool running;
+        private List<Thread> threads = new List<Thread>();
 
         public Simulation(Board board) 
         { 
@@ -44,14 +46,22 @@ namespace Logic
             }
         }
 
-
         private void mainLoop()
         {
-            while(this.running)
+            foreach(var ball in board.getBalls())
             {
-                this.board.checkBorderCollision();
-                Logic.updateBoard(this.board);
-                Thread.Sleep(10);
+                Thread thread = new Thread(() =>
+                {
+                    while (this.running)
+                    {
+                        this.board.checkBorderCollision();
+                        Logic.updatePosition(ball);
+                        Thread.Sleep(10);
+                    }
+                });
+                thread.IsBackground = true;
+                thread.Start();
+                threads.Add(thread);
             }
         }
 
