@@ -8,15 +8,16 @@ namespace Logic
 {
     public abstract class LogicAbstractAPI
     {
-        public static LogicAbstractAPI CreateLogicAPI()
+        public abstract bool isRunning();
+        public abstract void startSimulation();
+        
+        public abstract void stopSimulation();
+        
+        public static LogicAbstractAPI CreateLogicAPI(int x, int y, int amount)
         {
-            return new LogicLayer();
+            return new Simulation(new Board(x, y, amount));
         }
 
-    }
-    public class LogicLayer : LogicAbstractAPI
-    {
-        public LogicLayer() {
-        }
+        public abstract float[][] getCoordinates();
     }
 }

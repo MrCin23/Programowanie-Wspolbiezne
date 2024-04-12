@@ -48,7 +48,6 @@ namespace Data
         Random rnd = new Random();
         public Ball(int maxX, int maxY)
         {
-            Console.WriteLine(this.size);
             this.size = 5.0f;
             this.x = randomPosition(maxX);
             this.y = randomPosition(maxY);

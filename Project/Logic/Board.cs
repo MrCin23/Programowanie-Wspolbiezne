@@ -41,5 +41,18 @@ namespace Logic
                 }
             }
         }
+
+        internal float[][] getCoordinates()
+        {
+            float[][] coordinates = new float[balls.Length][];
+            for (int i = 0; i < balls.Length; i++)
+            {
+                float[] a = new float[2];
+                a[0] = balls[i].x;
+                a[1] = balls[i].y;
+                coordinates[i] = a;
+            }
+            return coordinates;
+        }
     }
 }

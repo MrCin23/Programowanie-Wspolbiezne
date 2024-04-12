@@ -1,5 +1,4 @@
-﻿/*
-using Logic;
+﻿using Logic;
 using NUnit.Framework;
 
 namespace LogicTests
@@ -11,53 +10,32 @@ namespace LogicTests
         public void isRunning_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var simulation = new Simulation(TODO);
+            Board board = new Board(300, 100, 5);
+            var simulation = new Simulation(board);
 
             // Act
             var result = simulation.isRunning();
 
             // Assert
-            Assert.Fail();
+            Assert.IsFalse(result);
         }
 
         [Test]
-        public void startSimulation_StateUnderTest_ExpectedBehavior()
+        public async Task startSimulation_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var simulation = new Simulation(TODO);
+            Board board = new Board(300, 100, 5);
+            var simulation = new Simulation(board);
 
-            // Act
-            simulation.startSimulation();
+            Thread thread = new Thread(simulation.startSimulation);
 
             // Assert
-            Assert.Fail();
-        }
-
-        [Test]
-        public void stopSimulation_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var simulation = new Simulation(TODO);
-
-            // Act
+            thread.Start();
+            await Task.Delay(10);
+            Assert.IsTrue(simulation.isRunning());
             simulation.stopSimulation();
-
-            // Assert
-            Assert.Fail();
-        }
-
-        [Test]
-        public void mainLoop_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var simulation = new Simulation(TODO);
-
-            // Act
-            simulation.mainLoop();
-
-            // Assert
-            Assert.Fail();
+            await Task.Delay(10);
+            Assert.IsFalse(simulation.isRunning());
         }
     }
 }
-*/

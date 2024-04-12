@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    internal class Simulation
+    internal class Simulation : LogicAbstractAPI
     {
         
         private Board board;
@@ -20,9 +20,9 @@ namespace Logic
             this.running = false;
         }
 
-        public bool isRunning() { return running; }
+        public override bool isRunning() { return running; }
 
-        public void startSimulation()
+        public override void startSimulation()
         {
             if(!running)
             {
@@ -31,17 +31,16 @@ namespace Logic
             mainLoop();
         }
 
-        public void stopSimulation() 
+        public override void stopSimulation() 
         { 
             if(running)
             {
                 this.running = false;
             }
-            mainLoop();
         }
 
 
-        public void mainLoop()
+        private void mainLoop()
         {
             while(this.running)
             {
@@ -49,6 +48,11 @@ namespace Logic
                 Logic.updateBoard(this.board);
                 Thread.Sleep(10);
             }
+        }
+
+        public override float[][] getCoordinates()
+        {
+            return board.getCoordinates();
         }
 
     }
