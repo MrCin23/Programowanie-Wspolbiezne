@@ -1,6 +1,8 @@
 ﻿using Logic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ namespace Model
 {
     public abstract class ModelAbstractAPI 
     {
+        
         public static ModelAbstractAPI CreateModelAPI(int x, int y, int amount)
         {
             //return null;
@@ -22,7 +25,9 @@ namespace Model
 
     internal class Model: ModelAbstractAPI
     {
-        private LogicAbstractAPI simulation;
+        public LogicAbstractAPI simulation;
+        public IObservable<LogicAbstractAPI> observableLogicAPI;
+
         public Model(LogicAbstractAPI api) {
             simulation = api;
         }

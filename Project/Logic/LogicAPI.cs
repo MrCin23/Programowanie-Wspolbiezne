@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Data;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +20,7 @@ namespace Logic
         {
             return new Simulation(new Board(x, y, amount));
         }
-
+        public abstract ObservableCollection<DataAbstractAPI> getObservableData();
         public abstract float[][] getCoordinates();
     }
 }

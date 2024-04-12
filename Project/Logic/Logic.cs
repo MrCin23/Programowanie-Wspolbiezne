@@ -25,11 +25,13 @@ namespace Logic
         static public void changeXdirection(DataAbstractAPI ball)
         {
             ball.setXVelocity(-ball.getXVelocity());
+            ball.RaisePropertyChanged(nameof(ball.getYVelocity));
         }
 
         static public void changeYdirection(DataAbstractAPI ball)
         {
             ball.setYVelocity(-ball.getYVelocity());
+            ball.RaisePropertyChanged(nameof(ball.getYVelocity));
         }
 
         static public void updatePosition(DataAbstractAPI ball)

@@ -27,13 +27,6 @@ namespace ViewModel
         public ICommand stopSimulation { get; set; }
         private ModelAbstractAPI model;
         public int amount;
-        /*        public ViewModel(ModelAbstractAPI model)
-                {
-                    this.model = model;
-                    // Initialize commands
-                    startSimulation = new RelayCommand(startSimulationHandler);
-                    stopSimulation = new RelayCommand(stopSimulationHandler);
-                }*/
 
         public ViewModel()
         {
@@ -56,7 +49,7 @@ namespace ViewModel
         }
         private void stopSimulationHandler(object obj)
         {
-            MessageBox.Show("Działa to kurwa.");
+            MessageBox.Show("a");
             //model.stopSimulation();
         }
 
