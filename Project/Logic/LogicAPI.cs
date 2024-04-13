@@ -20,7 +20,8 @@ namespace Logic
         {
             return new Simulation(new Board(x, y, amount));
         }
-        public abstract ObservableCollection<DataAbstractAPI> getObservableData();
+        //public abstract ObservableCollection<DataAbstractAPI> observableDataProperty { get; set; }
+        //public abstract Board boardProperty { get; set; }
         public abstract float[][] getCoordinates();
     }
 }

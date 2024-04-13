@@ -50,18 +50,17 @@ namespace ViewModel
             //MessageBox.Show(chooseBallAmount.ToString());
             //Debug.WriteLine("abc");
             model = ModelAbstractAPI.CreateModelAPI(700, 300, chooseBallAmount);
-            Thread thread = new Thread(() =>
-            {
+/*            Thread thread = new Thread(() =>
+            {*/
                 model.startSimulation();
-            });
+/*        });
             thread.IsBackground = true;
             thread.Start();
-/*            foreach (var b in model.drawBalls)
+            foreach (var b in model.drawBalls)
             {
                 test(b);
-
             }*/
-        }
+}
         private void stopSimulationHandler(object obj)
         {
             //MessageBox.Show("a");
@@ -87,12 +86,10 @@ namespace ViewModel
         public void test(BallToDraw ballToDraw)
         {
             while (true) { 
-                Debug.WriteLine(ballToDraw.x + " " + ballToDraw.y);
+                Debug.WriteLine(ballToDraw.X + " " + ballToDraw.Y);
             }
         }
 
         public ObservableCollection<BallToDraw> ballsToDraw { get; set; } = ballToDraws;
     }
-
-
 }

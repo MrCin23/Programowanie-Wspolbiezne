@@ -14,11 +14,42 @@ namespace Model
 
     public class BallToDraw
     {
-        public float x { get; set; }
-        public float y { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private float x;
+        private float y;
+
+        public float X
+        {
+            get => x;
+            set
+            {
+                x = value;
+                PropertyChanged += RelayBallUpdate;
+            }
+        }
+
+        public float Y
+        {
+            get => y;
+            set
+            {
+                y = value;
+                PropertyChanged += RelayBallUpdate;
+            }
+        }
+        private void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            PropertyChanged?.Invoke(this, args);
+        }
+
         public BallToDraw(float x, float y) {
             this.x = x; 
             this.y = y;
+        }
+
+        private void RelayBallUpdate(object source, PropertyChangedEventArgs args)
+        {
+            this.OnPropertyChanged(args);
         }
     }
 
@@ -37,18 +68,20 @@ namespace Model
         public DrawBalls(LogicAbstractAPI api)
         {
             this.api = api;
+            this.GetBallsToDraw();
         }
         public LogicAbstractAPI getAPI()
         {
-            return (LogicAbstractAPI)Api;
+            return api;
         }
 
 
         public void GetBallsToDraw() {
             for (int i = 0; i < getCoordinates().Length; i++) {
+                //Debug.WriteLine("hej");
                 //Debug.WriteLine(getCoordinates()[i][0] + " " + getCoordinates()[i][1]);
                 var ball = new BallToDraw(getCoordinates()[i][0], getCoordinates()[i][1]);
-                //Debug.WriteLine(ball.x + " " + ball.y);
+                Debug.WriteLine(ball.X + " " + ball.Y);
 
                 this.ballsToDraw.Add(ball);
             }
@@ -57,13 +90,8 @@ namespace Model
 
         public float[][] getCoordinates()
         {
-            this.RaisePropertyChanged("a");
+            //this.RaisePropertyChanged("a");
             return getAPI().getCoordinates();
-        }
-
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -6,13 +6,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Model
 {
     public abstract class ModelAbstractAPI 
     {
-        public abstract ObservableCollection<BallToDraw> drawBalls { get; }
         public static ModelAbstractAPI CreateModelAPI(int x, int y, int amount)
         {
             //return null;
@@ -26,20 +26,21 @@ namespace Model
 
     internal class Model: ModelAbstractAPI
     {
-        public LogicAbstractAPI simulation;
+        public LogicAbstractAPI simulation { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
         public IObservable<LogicAbstractAPI> observableLogicAPI;
-        public override ObservableCollection<BallToDraw> drawBalls { get; }
+        public ObservableCollection<BallToDraw> drawBalls;
         DrawBalls db;
 
         public Model(LogicAbstractAPI api) {
             simulation = api;
             db = new DrawBalls(simulation);
             drawBalls = db.ballsToDraw;
-            foreach (var ball in drawBalls)
+            //Debug.WriteLine();
+/*            foreach (var ball in drawBalls)
             {
-                Debug.WriteLine(ball.x + " " + ball.y);
-
-            }
+                Debug.WriteLine(ball.X + " " + ball.Y);
+            }*/
         }
 
         public override void startSimulation()
@@ -56,6 +57,14 @@ namespace Model
         {
             return simulation.getCoordinates();
         }
-
+        private void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            PropertyChanged?.Invoke(this, args);
+        }
+        private void RelayBallUpdate(object source, PropertyChangedEventArgs args)
+        {
+            
+            this.OnPropertyChanged(args);
+        }
     }
 }
