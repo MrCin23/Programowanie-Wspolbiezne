@@ -20,6 +20,7 @@ namespace Data
         public abstract void setYVelocity(float yVelocity);
         public static DataAbstractAPI CreateDataAPI(int maxX, int maxY)
         {
+            Console.WriteLine("aaa");
             return new Ball(maxX, maxY);
         }
         public abstract void RaisePropertyChanged([CallerMemberName] string propertyName = "");

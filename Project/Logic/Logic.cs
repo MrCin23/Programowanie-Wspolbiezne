@@ -1,6 +1,7 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -40,6 +41,7 @@ namespace Logic
             ball.y += ball.getYVelocity() * (1.0f / frequency);
             ball.RaisePropertyChanged(nameof(ball.x));
             ball.RaisePropertyChanged(nameof(ball.y));
+            //Debug.WriteLine(ball.x + " " + ball.y);
         }
 
         static public void updateBoard(Board board)

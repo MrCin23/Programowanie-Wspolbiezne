@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Model
 {
     public abstract class ModelAbstractAPI 
     {
-        
+        public abstract ObservableCollection<BallToDraw> drawBalls { get; }
         public static ModelAbstractAPI CreateModelAPI(int x, int y, int amount)
         {
             //return null;
@@ -27,9 +28,18 @@ namespace Model
     {
         public LogicAbstractAPI simulation;
         public IObservable<LogicAbstractAPI> observableLogicAPI;
+        public override ObservableCollection<BallToDraw> drawBalls { get; }
+        DrawBalls db;
 
         public Model(LogicAbstractAPI api) {
             simulation = api;
+            db = new DrawBalls(simulation);
+            drawBalls = db.ballsToDraw;
+            foreach (var ball in drawBalls)
+            {
+                Debug.WriteLine(ball.x + " " + ball.y);
+
+            }
         }
 
         public override void startSimulation()
@@ -46,5 +56,6 @@ namespace Model
         {
             return simulation.getCoordinates();
         }
+
     }
 }

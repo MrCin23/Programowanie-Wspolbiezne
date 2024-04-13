@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -53,7 +54,8 @@ namespace Data
             this.x = randomPosition(maxX);
             this.y = randomPosition(maxY);
             this.Xvelocity = randomVelocity();
-            this.Xvelocity = randomVelocity();
+            this.Yvelocity = randomVelocity();
+            //Debug.WriteLine(x + " " + y + " " + Xvelocity + " " + Yvelocity);
         }
 
         private float randomPosition(int maxPositon) {

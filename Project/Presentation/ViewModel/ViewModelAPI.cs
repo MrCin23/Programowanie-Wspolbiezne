@@ -1,10 +1,13 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -27,6 +30,7 @@ namespace ViewModel
         public ICommand stopSimulation { get; set; }
         private ModelAbstractAPI model;
         public int amount;
+        private static readonly ObservableCollection<BallToDraw> ballToDraws;
 
         public ViewModel()
         {
@@ -42,15 +46,26 @@ namespace ViewModel
 
         private void startSimulationHandler(object obj)
         {
-            
-            MessageBox.Show(chooseBallAmount.ToString());
-            model = ModelAbstractAPI.CreateModelAPI(700, 300, 9);
-            //model.startSimulation();
+
+            //MessageBox.Show(chooseBallAmount.ToString());
+            //Debug.WriteLine("abc");
+            model = ModelAbstractAPI.CreateModelAPI(700, 300, chooseBallAmount);
+            Thread thread = new Thread(() =>
+            {
+                model.startSimulation();
+            });
+            thread.IsBackground = true;
+            thread.Start();
+/*            foreach (var b in model.drawBalls)
+            {
+                test(b);
+
+            }*/
         }
         private void stopSimulationHandler(object obj)
         {
-            MessageBox.Show("a");
-            //model.stopSimulation();
+            //MessageBox.Show("a");
+            model.stopSimulation();
         }
 
         public int chooseBallAmount
@@ -68,39 +83,16 @@ namespace ViewModel
         {
             return model.getCoordinates();
         }
-    }
-    /*public class BilliardsViewModel : INotifyPropertyChanged
-    {
-        private int _chooseBallAmount;
-        private ModelAbstractAPI model;
 
-        public int ChooseBallAmount
+        public void test(BallToDraw ballToDraw)
         {
-            get { return _chooseBallAmount; }
-            set
-            {
-                _chooseBallAmount = value;
-                OnPropertyChanged(nameof(ChooseBallAmount));
+            while (true) { 
+                Debug.WriteLine(ballToDraw.x + " " + ballToDraw.y);
             }
         }
 
-        public ICommand startSimulation { get; }
-        public ICommand stopSimulation { get; }
-
-        public BilliardsViewModel(ModelAbstractAPI api)
-        {
-
-        }
-
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }*/
+        public ObservableCollection<BallToDraw> ballsToDraw { get; set; } = ballToDraws;
+    }
 
 
 }

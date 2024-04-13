@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Logic
         private Board board;
         private bool running;
         private List<Thread> threads = new List<Thread>();
-        private ObservableCollection<DataAbstractAPI> observableData;
+        private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
         
 
         public Simulation(Board board) 
