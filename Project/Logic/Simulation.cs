@@ -72,7 +72,7 @@ namespace Logic
                     {
                         this.board.checkBorderCollision();
                         Logic.updatePosition(ball);
-                        //ball.PropertyChanged += RelayBallUpdate;
+                        ball.PropertyChanged += RelayBallUpdate;
                         //modify here to relay with observer
                         Thread.Sleep(10);
                     }

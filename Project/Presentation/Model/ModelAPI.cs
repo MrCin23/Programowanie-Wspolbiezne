@@ -21,26 +21,35 @@ namespace Model
         public abstract void startSimulation();
         public abstract void stopSimulation();
         public abstract float[][] getCoordinates();
+
+        public abstract Object[] getData();
     }
 
 
     internal class Model: ModelAbstractAPI
     {
         public LogicAbstractAPI simulation { get; set; }
+        public Object[] data { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-        public IObservable<LogicAbstractAPI> observableLogicAPI;
+        //public IObservable<LogicAbstractAPI> observableLogicAPI;
         public ObservableCollection<BallToDraw> drawBalls;
         DrawBalls db;
+
+        public override Object[] getData()
+        {
+            return data;
+        }
 
         public Model(LogicAbstractAPI api) {
             simulation = api;
             db = new DrawBalls(simulation);
+            data = simulation.getBoard().getBalls();
             drawBalls = db.ballsToDraw;
             //Debug.WriteLine();
-/*            foreach (var ball in drawBalls)
+            foreach (var ball in drawBalls)
             {
                 Debug.WriteLine(ball.X + " " + ball.Y);
-            }*/
+            }
         }
 
         public override void startSimulation()

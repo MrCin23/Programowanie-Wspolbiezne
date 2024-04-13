@@ -97,10 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrawBalls.cs" />
+    <Compile Include="Iball.cs" />
     <Compile Include="ModelAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\Data.csproj">
+      <Project>{9F7981C9-5801-43D3-9A85-F67DC2E09740}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Logic\Logic.csproj">
       <Project>{3287f384-81df-4d31-b7f8-0a2159ec2f42}</Project>
       <Name>Logic</Name>

@@ -31,6 +31,7 @@ namespace ViewModel
         private ModelAbstractAPI model;
         public int amount;
         private static readonly ObservableCollection<BallToDraw> ballToDraws;
+        public Object[] data;
 
         public ViewModel()
         {
@@ -52,7 +53,8 @@ namespace ViewModel
             model = ModelAbstractAPI.CreateModelAPI(700, 300, chooseBallAmount);
 /*            Thread thread = new Thread(() =>
             {*/
-                model.startSimulation();
+            model.startSimulation();
+            data = model.getData();
 /*        });
             thread.IsBackground = true;
             thread.Start();
@@ -60,7 +62,7 @@ namespace ViewModel
             {
                 test(b);
             }*/
-}
+        }
         private void stopSimulationHandler(object obj)
         {
             //MessageBox.Show("a");
@@ -83,10 +85,11 @@ namespace ViewModel
             return model.getCoordinates();
         }
 
-        public void test(BallToDraw ballToDraw)
+        public void test(Object ball)
         {
-            while (true) { 
-                Debug.WriteLine(ballToDraw.X + " " + ballToDraw.Y);
+            while (true)
+            {
+                Debug.WriteLine(ball.x + " " + ball.y);
             }
         }
 
