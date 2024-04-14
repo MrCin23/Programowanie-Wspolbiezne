@@ -16,15 +16,6 @@ using System.Windows.Media.Media3D;
 
 namespace ViewModel
 {
-/*    public abstract class ViewModelAbstractAPI
-    {
-
-        public static ViewModelAbstractAPI CreateViewModelAPI(int x, int y, int amount)
-        {
-            return new ViewModel(ModelAbstractAPI.CreateModelAPI(x, y, amount));
-        }
-    }*/
-
     public class ViewModel : INotifyPropertyChanged
     {
         public ICommand startSimulation { get; set; }
@@ -35,6 +26,7 @@ namespace ViewModel
         
         public ViewModel()
         {
+            //DI is not really doable here
             startSimulation = new RelayCommand(startSimulationHandler);
             stopSimulation = new RelayCommand(stopSimulationHandler);
         }
@@ -48,40 +40,17 @@ namespace ViewModel
         private void startSimulationHandler(object obj)
         {
             api = ModelAbstractAPI.CreateModelAPI(chooseBallAmount);
-            IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x));
-            //MessageBox.Show(chooseBallAmount.ToString());
-            //Debug.WriteLine("abc");
+            IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x)); //look at ModelAPI.cs@89
             foreach (IBall b in api.getballs())
             {
                 ballsToDraw.Add(b);
             }
-            //Debug.WriteLine(ballsToDraw.Count);
-            api.PropertyChanged += OnBallChanged;
             api.StartSimulation();
-
-/*            foreach (var b in api.getballs())
-            {
-                while (true)
-                {
-
-                test(b);
-                }
-            }*/
-        }
-
-        private void OnBallChanged(object sender, PropertyChangedEventArgs args)
-        {
         }
 
         private void stopSimulationHandler(object obj)
         {
-            //MessageBox.Show("a");
             api.StopSimulation();
-        }
-
-        private void test(IBall b)
-        {
-            Debug.WriteLine(b.x.ToString() + " " + b.y.ToString());
         }
 
         public int chooseBallAmount
@@ -90,14 +59,7 @@ namespace ViewModel
             set
             {
                 amount = value;
-                OnPropertyChanged("Ball Amount");
             }
         }
-
-
-/*        public float[][] getCoordinates()
-        {
-            return model.getCoordinates();
-        }*/ 
     }
 }

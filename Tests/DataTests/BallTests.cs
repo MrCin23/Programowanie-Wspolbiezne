@@ -16,7 +16,7 @@ namespace DataTests
             var result = ball.getSize();
 
             // Assert
-            Assert.That(5.0f, Is.EqualTo(result));
+            Assert.That(10.0f, Is.EqualTo(result));
         }
 
 

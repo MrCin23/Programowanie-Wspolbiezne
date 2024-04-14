@@ -9,6 +9,7 @@ namespace View
     /// </summary>
     public partial class App : Application
     {
+        //no code-behind :)
     }
 
 }

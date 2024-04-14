@@ -15,13 +15,6 @@
                 <RowDefinition Height="300"/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <!--<Rectangle Grid.Row="0" Width="700" Height="300" Fill="#155843">
-            </Rectangle>-->
-            <Ellipse Grid.Row="0" Width="10" Height="10" Fill="#FF0000" Margin="0, 0, 690, 290"/>
-            <Ellipse Grid.Row="0" Width="10" Height="10" Fill="#FF0000" Margin="690, 0, 0, 290"/>
-            <Ellipse Grid.Row="0" Width="10" Height="10" Fill="#FF0000" Margin="0, 290, 690, 0"/>
-            <Ellipse Grid.Row="0" Width="10" Height="10" Fill="#FF0000" Margin="690, 290, 0, 0"/>
-            <Ellipse Grid.Row="0" Width="10" Height="10" Fill="#FF0000" Margin="123, 145, 567, 145"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="start simulation" Height="20" VerticalAlignment="Center" Margin="230, 10, 50, 20" Command="{Binding startSimulation}" />
                 <StackPanel Margin="0, 0, 0, 20">
