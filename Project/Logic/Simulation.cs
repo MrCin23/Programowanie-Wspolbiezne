@@ -50,14 +50,9 @@ namespace Logic
 
         public override void stopSimulation() 
         { 
-            
             if(running)
             {
                 this.running = false;
-                foreach (var thread in threads)
-                {
-                    thread.Interrupt();
-                }
                 threads.Clear();
             }
         }
