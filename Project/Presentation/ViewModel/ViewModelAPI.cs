@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Data;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,7 +32,7 @@ namespace ViewModel
         private ModelAbstractAPI api;
         public int amount;
         public ObservableCollection<IBall> ballsToDraw { get; } = new ObservableCollection<IBall>();
-
+        
         public ViewModel()
         {
             startSimulation = new RelayCommand(startSimulationHandler);
