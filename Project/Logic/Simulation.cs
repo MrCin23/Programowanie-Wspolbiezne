@@ -63,7 +63,7 @@ namespace Logic
             }
         }
 
-        private void mainLoop()
+        /*private void mainLoop()
         {
             foreach(var ball in this.board.getBalls())
             {
@@ -80,6 +80,22 @@ namespace Logic
                 thread.IsBackground = true;
                 thread.Start();
                 threads.Add(thread);
+            }
+        }*/
+
+        private void mainLoop()
+        {
+            foreach (var ball in this.board.getBalls())
+            {
+                
+                while (this.running)
+                {
+                    this.board.checkBorderCollision();
+                    Logic.updatePosition(ball);
+                    ball.PropertyChanged += RelayBallUpdate;
+                    Thread.Sleep(10);
+                }
+                
             }
         }
 

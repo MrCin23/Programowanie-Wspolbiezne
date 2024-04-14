@@ -47,12 +47,11 @@ namespace Model
         public event PropertyChangedEventHandler PropertyChanged;
         //public IObservable<LogicAbstractAPI> observableLogicAPI;
         //public ObservableCollection<BallToDraw> drawBalls;
-        DrawBalls db;
 
 
         public Model(LogicAbstractAPI api, int amount)
         {
-            eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "Ball Changed");
+            eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
             simulation = api;
             for (int i = 0; i < amount; i++)
             {
