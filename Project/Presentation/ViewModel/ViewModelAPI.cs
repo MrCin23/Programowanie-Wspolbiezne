@@ -28,10 +28,9 @@ namespace ViewModel
     {
         public ICommand startSimulation { get; set; }
         public ICommand stopSimulation { get; set; }
-        private ModelAbstractAPI model;
+        private ModelAbstractAPI api;
         public int amount;
-        private static readonly ObservableCollection<BallToDraw> ballToDraws;
-        public Object[] data;
+        public ObservableCollection<IBall> ballsToDraw { get; } = new ObservableCollection<IBall>();
 
         public ViewModel()
         {
@@ -47,14 +46,13 @@ namespace ViewModel
 
         private void startSimulationHandler(object obj)
         {
-
+            api = ModelAbstractAPI.CreateModelAPI(chooseBallAmount);
+            IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x));
             //MessageBox.Show(chooseBallAmount.ToString());
             //Debug.WriteLine("abc");
-            model = ModelAbstractAPI.CreateModelAPI(700, 300, chooseBallAmount);
-/*            Thread thread = new Thread(() =>
-            {*/
-            model.startSimulation();
-            data = model.getData();
+            /*            Thread thread = new Thread(() =>
+                        {*/
+            api.StartSimulation();
 /*        });
             thread.IsBackground = true;
             thread.Start();
@@ -66,7 +64,7 @@ namespace ViewModel
         private void stopSimulationHandler(object obj)
         {
             //MessageBox.Show("a");
-            model.stopSimulation();
+            api.StopSimulation();
         }
 
         public int chooseBallAmount
@@ -80,19 +78,9 @@ namespace ViewModel
         }
 
 
-        public float[][] getCoordinates()
+/*        public float[][] getCoordinates()
         {
             return model.getCoordinates();
-        }
-
-        public void test(Object ball)
-        {
-            while (true)
-            {
-                Debug.WriteLine(ball.x + " " + ball.y);
-            }
-        }
-
-        public ObservableCollection<BallToDraw> ballsToDraw { get; set; } = ballToDraws;
+        }*/ 
     }
 }

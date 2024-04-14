@@ -21,6 +21,7 @@ namespace Logic
         private bool running;
         private List<Thread> threads = new List<Thread>();
         private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
+        //todo
 
         public Simulation(Board board) 
         {
@@ -73,7 +74,6 @@ namespace Logic
                         this.board.checkBorderCollision();
                         Logic.updatePosition(ball);
                         ball.PropertyChanged += RelayBallUpdate;
-                        //modify here to relay with observer
                         Thread.Sleep(10);
                     }
                 });

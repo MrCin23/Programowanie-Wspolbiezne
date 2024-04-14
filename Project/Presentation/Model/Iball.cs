@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Model
 {
-    internal abstract class Iball
+    public interface IBall : INotifyPropertyChanged
     {
-        public abstract float x { get; set; }
-        public abstract float y { get; set; }
-        public abstract float r { get; set; }
+        float x { get; }
+        float y { get; }
+        float r { get; }
+    }
 
+    public class BallChangeEventArgs : EventArgs
+    {
+        public IBall Ball { get; internal set; }
     }
 }
