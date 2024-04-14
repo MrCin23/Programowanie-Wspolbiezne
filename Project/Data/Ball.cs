@@ -50,7 +50,7 @@ namespace Data
         Random rnd = new Random();
         public Ball(int maxX, int maxY)
         {
-            this.size = 5.0f;
+            this.size = 10.0f;
             this.x = randomPosition(maxX);
             this.y = randomPosition(maxY);
             this.Xvelocity = randomVelocity();

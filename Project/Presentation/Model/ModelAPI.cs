@@ -43,6 +43,8 @@ namespace Model
 
         public abstract DrawBalls[] getballs();
 
+        public abstract event PropertyChangedEventHandler PropertyChanged;
+
 
     }
 
@@ -51,7 +53,7 @@ namespace Model
     {
         private IObservable<EventPattern<BallChangeEventArgs>> eventObservable = null;
         public LogicAbstractAPI simulation { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<BallChangeEventArgs> BallChanged;
         public IObservable<EventHandler> ballsChanged;
         //public ObservableCollection<BallToDraw> drawBalls;

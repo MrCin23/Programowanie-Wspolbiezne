@@ -51,21 +51,28 @@ namespace ViewModel
             IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x));
             //MessageBox.Show(chooseBallAmount.ToString());
             //Debug.WriteLine("abc");
-            Thread thread = new Thread(() =>
+            foreach (IBall b in api.getballs())
             {
-                api.StartSimulation();
-            });
-            thread.IsBackground = true;
-            thread.Start();
-            foreach (var b in api.getballs())
+                ballsToDraw.Add(b);
+            }
+            //Debug.WriteLine(ballsToDraw.Count);
+            api.PropertyChanged += OnBallChanged;
+            api.StartSimulation();
+
+/*            foreach (var b in api.getballs())
             {
                 while (true)
                 {
 
                 test(b);
                 }
-            }
+            }*/
         }
+
+        private void OnBallChanged(object sender, PropertyChangedEventArgs args)
+        {
+        }
+
         private void stopSimulationHandler(object obj)
         {
             //MessageBox.Show("a");
