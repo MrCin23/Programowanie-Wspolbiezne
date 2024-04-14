@@ -39,7 +39,7 @@ namespace ViewModel
 
         private void startSimulationHandler(object obj)
         {
-            api = ModelAbstractAPI.CreateModelAPI(chooseBallAmount);
+            api = ModelAbstractAPI.CreateModelAPI(700, 300, chooseBallAmount);
             IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x)); //look at ModelAPI.cs@89
             foreach (IBall b in api.getballs())
             {

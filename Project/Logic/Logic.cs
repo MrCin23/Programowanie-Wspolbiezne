@@ -21,7 +21,13 @@ namespace Logic
 
         public static LogicAbstractAPI CreateLogicAPI(int x, int y, int amount)
         {
-            return new Simulation(new Board(x, y, amount));
+            DataAbstractAPI[] balls = new DataAbstractAPI[amount];
+            for (int i = 0; i < amount; i++)
+            {
+                DataAbstractAPI ball = DataAbstractAPI.CreateDataAPI(x, y);
+                balls[i] = ball;
+            }
+            return new Simulation(new Board(x, y, balls));
         }
         public abstract float[][] getCoordinates();
     }

@@ -17,8 +17,9 @@ namespace Model
 {
     public abstract class ModelAbstractAPI : IObservable<IBall>
     {
-        public static ModelAbstractAPI CreateModelAPI(LogicAbstractAPI LAAPI, int amount)
-        { //LogicAbstractAPI.CreateLogicAPI(700, 300, amount)
+        public static ModelAbstractAPI CreateModelAPI(int x, int y, int amount)
+        {
+            LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
             Model model = new Model(LAAPI, amount);
             return model;
         }
