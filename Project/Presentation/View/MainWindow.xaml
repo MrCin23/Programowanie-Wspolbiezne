@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:ViewModel;assembly=ViewModel"
-        xmlns:model="clr-namespace:Model;assembly=Model"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="820">
     <Window.DataContext>
@@ -44,7 +43,7 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type model:BallToDraw}">
+                    <DataTemplate>
                         <Ellipse Height="5" Width="5" Stroke="#FF0000" Fill="#FF0000"></Ellipse>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

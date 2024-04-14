@@ -64,7 +64,7 @@ namespace Model
 
         public float x {
             get { return X; } 
-            private set
+            set
             {
                 if (X != value)
                 {
@@ -76,7 +76,7 @@ namespace Model
 
         public float y {
             get { return Y; }
-            private set
+            set
             {
                 if (Y != value)
                 {

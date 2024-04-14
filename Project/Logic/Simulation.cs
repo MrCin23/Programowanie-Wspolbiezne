@@ -21,6 +21,7 @@ namespace Logic
         private bool running;
         private List<Thread> threads = new List<Thread>();
         private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
+        public event EventHandler BallsChanged;
         //todo
 
         public Simulation(Board board) 
@@ -74,6 +75,7 @@ namespace Logic
                         this.board.checkBorderCollision();
                         Logic.updatePosition(ball);
                         ball.PropertyChanged += RelayBallUpdate;
+                        BallsChanged?.Invoke(this, EventArgs.Empty); // Powiadom o zmianie kulek
                         Thread.Sleep(10);
                     }
                 });
