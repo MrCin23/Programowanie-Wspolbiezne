@@ -18,11 +18,11 @@ namespace Logic
             return balls;
         }
 
-        public Board(int sizeX, int sizeY, int amount)
+        public Board(int sizeX, int sizeY, DataAbstractAPI[] balls)
         {
             this.sizeX = sizeX;
             this.sizeY = sizeY;
-            this.balls = Logic.createBalls(sizeX, sizeY, amount);
+            this.balls = balls;
         }
 
         public void checkBorderCollision() 
