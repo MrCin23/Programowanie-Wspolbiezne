@@ -51,21 +51,30 @@ namespace ViewModel
             IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x));
             //MessageBox.Show(chooseBallAmount.ToString());
             //Debug.WriteLine("abc");
-            /*            Thread thread = new Thread(() =>
-                        {*/
-            api.StartSimulation();
-/*        });
+            Thread thread = new Thread(() =>
+            {
+                api.StartSimulation();
+            });
             thread.IsBackground = true;
             thread.Start();
-            foreach (var b in model.drawBalls)
+            foreach (var b in api.getballs())
             {
+                while (true)
+                {
+
                 test(b);
-            }*/
+                }
+            }
         }
         private void stopSimulationHandler(object obj)
         {
             //MessageBox.Show("a");
             api.StopSimulation();
+        }
+
+        private void test(IBall b)
+        {
+            Debug.WriteLine(b.x.ToString() + " " + b.y.ToString());
         }
 
         public int chooseBallAmount

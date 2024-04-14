@@ -39,6 +39,9 @@ namespace Logic
         {
             ball.x += ball.getXVelocity() * (1.0f / frequency);
             ball.y += ball.getYVelocity() * (1.0f / frequency);
+            /*ball.x += ball.getXVelocity();
+            ball.y += ball.getYVelocity();*/
+
             ball.RaisePropertyChanged(nameof(ball.x));
             ball.RaisePropertyChanged(nameof(ball.y));
             //Debug.WriteLine(ball.x + " " + ball.y);

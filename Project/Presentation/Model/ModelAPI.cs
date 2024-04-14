@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,7 +40,10 @@ namespace Model
         public abstract void StartSimulation();
         public abstract void StopSimulation();
         public abstract IDisposable Subscribe(IObserver<IBall> observer);
-       
+
+        public abstract DrawBalls[] getballs();
+
+
     }
 
 
@@ -52,6 +56,12 @@ namespace Model
         public IObservable<EventHandler> ballsChanged;
         //public ObservableCollection<BallToDraw> drawBalls;
         DrawBalls[] drawBalls;
+
+        //do usuniecia
+        public override DrawBalls[] getballs()
+        {
+            return drawBalls;
+        }
         private int amount { get; set; }
 
 
@@ -63,9 +73,18 @@ namespace Model
             for (int i = 0; i < amount; i++)
             {
                 DrawBalls ball = new DrawBalls(api.getCoordinates()[i][0], api.getCoordinates()[i][1]);
-                Debug.WriteLine(ball.x + " " + ball.y);
+                //Debug.WriteLine(ball.x + " " + ball.y);
+                drawBalls[i] = ball;
+                /*Thread thread = new Thread(() =>
+                {
+                    while (true)
+                    {*/
+                api.PropertyChanged += OnBallChanged;
+                    /*}
+                });
+                thread.IsBackground = true;
+                thread.Start();*/
             }
-            simulation.BallsChanged += Simulation_BallsChanged;
             //simulation.BallsChanged += (sender, args) => UpdateDrawBallsPositions();
 
             /*            db = new DrawBalls(simulation);
@@ -76,12 +95,14 @@ namespace Model
                             Debug.WriteLine(ball.X + " " + ball.Y);
                         }*/
         }
-
-        private void Simulation_BallsChanged(object sender, EventArgs e)
-        {
-            UpdatePosition(); // Wywołanie funkcji aktualizującej pozycję kulek
+        private void OnBallChanged(object sender, PropertyChangedEventArgs args)
+        {        
+            if (drawBalls[0].x != simulation.getCoordinates()[0][0] && drawBalls[0].y != simulation.getCoordinates()[0][1])
+            {
+                UpdatePosition();
+                //Debug.WriteLine(simulation.getCoordinates()[0][0] + "  " + simulation.getCoordinates()[0][1]);
+            }
         }
-
         private void UpdatePosition()
         {
             // Tutaj implementuj logikę aktualizacji pozycji kulek DrawBalls na podstawie danych z symulacji
@@ -90,18 +111,7 @@ namespace Model
             {
                 drawBalls[i].x = simulation.getCoordinates()[i][0]; // Aktualizacja pozycji X
                 drawBalls[i].y = simulation.getCoordinates()[i][1]; // Aktualizacja pozycji Y
-                Debug.WriteLine(drawBalls[i].x + " " + drawBalls[i].y);
-            }
-        }
-
-        private void UpdateDrawBallsPositions()
-        {
-            // Aktualizuj pozycje kul DrawBalls na podstawie danych z symulacji
-            for (int i = 0; i < amount; i++)
-            {
-                drawBalls[i].x = simulation.getCoordinates()[i][0];
-                drawBalls[i].y = simulation.getCoordinates()[i][1];
-                Debug.WriteLine(drawBalls[i].x + " " + drawBalls[i].y);
+                //Debug.WriteLine(drawBalls[i].x + " " + drawBalls[i].y);
             }
         }
 

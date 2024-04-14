@@ -21,7 +21,8 @@ namespace Logic
         private bool running;
         private List<Thread> threads = new List<Thread>();
         private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
-        public event EventHandler BallsChanged;
+        //public event EventHandler BallsChanged;
+        
         //todo
 
         public Simulation(Board board) 
@@ -64,9 +65,9 @@ namespace Logic
             }
         }
 
-        /*private void mainLoop()
+        private void mainLoop()
         {
-            foreach(var ball in this.board.getBalls())
+            foreach (var ball in this.board.getBalls())
             {
                 Thread thread = new Thread(() =>
                 {
@@ -75,7 +76,8 @@ namespace Logic
                         this.board.checkBorderCollision();
                         Logic.updatePosition(ball);
                         ball.PropertyChanged += RelayBallUpdate;
-                        BallsChanged?.Invoke(this, EventArgs.Empty); // Powiadom o zmianie kulek
+                        //Debug.WriteLine("s"+ ball.x + " " + ball.y);
+                        //BallsChanged?.Invoke(this, EventArgs.Empty); // Powiadom o zmianie kulek
                         Thread.Sleep(10);
                     }
                 });
@@ -83,30 +85,30 @@ namespace Logic
                 thread.Start();
                 threads.Add(thread);
             }
-        }*/
-
-        private void mainLoop()
-        {
-            foreach (var ball in this.board.getBalls())
-            {
-                
-                while (this.running)
-                {
-                    this.board.checkBorderCollision();
-                    Logic.updatePosition(ball);
-                    ball.PropertyChanged += RelayBallUpdate;
-                    Thread.Sleep(10);
-                }
-                
-            }
         }
+
+        /*        private void mainLoop()
+                {
+                    foreach (var ball in this.board.getBalls())
+                    {
+
+                        while (this.running)
+                        {
+                            this.board.checkBorderCollision();
+                            Logic.updatePosition(ball);
+                            ball.PropertyChanged += RelayBallUpdate;
+                            Thread.Sleep(10);
+                        }
+
+                    }
+                }*/
 
         public override float[][] getCoordinates()
         {
             return board.getCoordinates();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(PropertyChangedEventArgs args)
         {

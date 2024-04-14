@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Logic
 {
     public abstract class LogicAbstractAPI
     {
-        public event EventHandler BallsChanged;
+        public abstract event PropertyChangedEventHandler PropertyChanged;
         public abstract Board getBoard();
         public abstract bool isRunning();
         public abstract void startSimulation();
