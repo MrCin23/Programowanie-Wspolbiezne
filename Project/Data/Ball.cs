@@ -15,12 +15,12 @@ namespace Data
         public override event PropertyChangedEventHandler PropertyChanged;
 
         private float size;
-        private float density { get; }
+        private float density { get; } //currently unused as there are no forces
         private float Xvelocity;
         private float Yvelocity;
         public override float x { get; set; }
         public override float y { get; set; }
-        public static readonly float maxVelocity = 20.0f;
+        public static readonly float maxVelocity = 2.0f;
 
         public override float getSize() 
         { 
@@ -55,12 +55,10 @@ namespace Data
             this.y = randomPosition(maxY);
             this.Xvelocity = randomVelocity();
             this.Yvelocity = randomVelocity();
-            //Debug.WriteLine(x + " " + y + " " + Xvelocity + " " + Yvelocity);
         }
 
         private float randomPosition(int maxPositon) {
             return (float)rnd.NextDouble() * (maxPositon - this.size) + this.size/2;
-            //return (float)rnd.Next((int)(this.size * 5), (int)(maxPositon * 10 - this.size * 5)) / 10.0f;
         }
 
         private float randomVelocity() {

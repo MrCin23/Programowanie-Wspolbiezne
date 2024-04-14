@@ -38,8 +38,6 @@ namespace LogicTests
             // Arrange
             LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
 
-            //Ball ball = new Ball(100, 100);
-
             // Act
             var board = api.getBoard();
             var balls = board.getBalls();
@@ -57,8 +55,6 @@ namespace LogicTests
         {
             // Arrange
             LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
-
-            //Ball ball = new Ball(100, 100);
 
             // Act
             var board = api.getBoard();
@@ -83,8 +79,6 @@ namespace LogicTests
             // Arrange
             LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
 
-            //Ball ball = new Ball(100, 100);
-
             // Act
             var board = api.getBoard();
             var balls = board.getBalls();
@@ -101,8 +95,8 @@ namespace LogicTests
             Logic.Logic.updatePosition(ball);
 
             // Assert
-            Assert.That(ball.x, Is.EqualTo(50.05).Within(0.01f));
-            Assert.That(ball.y, Is.EqualTo(50.05).Within(0.01f));
+            Assert.That(ball.x, Is.EqualTo(55).Within(0.001f));
+            Assert.That(ball.y, Is.EqualTo(55).Within(0.001f));
         }
 
         [Test]
@@ -117,12 +111,11 @@ namespace LogicTests
             board.getBalls()[0].setXVelocity(5);
             board.getBalls()[0].setYVelocity(5);
 
-            Logic.Logic.updateBoard(
-                board);
+            Logic.Logic.updateBoard(board);
 
             // Assert
-            Assert.That(board.getBalls()[0].x, Is.EqualTo(50.05).Within(0.01f));
-            Assert.That(board.getBalls()[0].y, Is.EqualTo(50.05).Within(0.01f));
+            Assert.That(board.getBalls()[0].x, Is.EqualTo(55).Within(0.001f));
+            Assert.That(board.getBalls()[0].y, Is.EqualTo(55).Within(0.001f));
         }
     }
 }
