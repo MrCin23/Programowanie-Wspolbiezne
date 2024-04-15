@@ -30,14 +30,12 @@ namespace Logic
             {
                 if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX || 
                     ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
-                    //ball.x - ball.getSize() <= 0 || ball.x + ball.getXVelocity() - ball.getSize() <= 0)
                 {
                     Logic.changeXdirection(ball);
                     Logic.updatePosition(ball);
                 }
                 if (ball.y + ball.getSize() >= this.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= this.sizeY || 
                     ball.y <= 0 || ball.y + ball.getYVelocity() <= 0)
-                    //ball.y - ball.getSize() <= 0 || ball.y + ball.getYVelocity() - ball.getSize() <= 0)
                 {
                     Logic.changeYdirection(ball);
                     Logic.updatePosition(ball);
