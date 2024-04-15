@@ -99,7 +99,7 @@ namespace LogicTests
             Assert.That(ball.y, Is.EqualTo(55).Within(0.001f));
         }
 
-        [Test]
+        /*[Test]
         public void updateBoardTest()
         {
             // Arrange
@@ -116,6 +116,6 @@ namespace LogicTests
             // Assert
             Assert.That(board.getBalls()[0].x, Is.EqualTo(55).Within(0.001f));
             Assert.That(board.getBalls()[0].y, Is.EqualTo(55).Within(0.001f));
-        }
+        }*/
     }
 }

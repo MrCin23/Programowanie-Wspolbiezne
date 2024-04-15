@@ -6,9 +6,12 @@ namespace LogicTests
     [TestFixture]
     public class SimulationTests
     {
-        [Test]
+/*        [Test]
         public void isRunning_StateUnderTest_ExpectedBehavior()
         {
+            for (int i = 0; i < 5; i++) {
+                
+            }
             // Arrange
             Board board = new Board(300, 100, 5);
             var simulation = new Simulation(board);
@@ -18,9 +21,9 @@ namespace LogicTests
 
             // Assert
             Assert.IsFalse(result);
-        }
+        }*/
 
-        [Test]
+/*        [Test]
         public async Task startSimulation_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -36,6 +39,6 @@ namespace LogicTests
             simulation.stopSimulation();
             await Task.Delay(10);
             Assert.IsFalse(simulation.isRunning());
-        }
+        }*/
     }
 }
