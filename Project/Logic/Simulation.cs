@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    public class Simulation : LogicAbstractAPI, INotifyPropertyChanged
+    internal class Simulation : LogicAbstractAPI, INotifyPropertyChanged
     {
 
         private Board board;

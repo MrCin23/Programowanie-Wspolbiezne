@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class Ball : DataAbstractAPI, INotifyPropertyChanged
+    internal class Ball : DataAbstractAPI, INotifyPropertyChanged
     {
         public override event PropertyChangedEventHandler PropertyChanged;
 

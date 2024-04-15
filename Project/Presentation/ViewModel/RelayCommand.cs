@@ -11,7 +11,7 @@ namespace ViewModel
     /// <summary>
     /// this entire class has been borrowed from some random official Microsoft site
     /// </summary>
-    public class RelayCommand : ICommand
+    internal class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Predicate<object> _canExecute;

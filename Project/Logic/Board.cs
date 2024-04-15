@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    public class Board
+    public class Board //internal
     {
         public int sizeX {  get; }
         public int sizeY { get; }
