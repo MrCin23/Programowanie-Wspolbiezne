@@ -6,29 +6,30 @@ namespace LogicTests
     [TestFixture]
     public class SimulationTests
     {
-/*        [Test]
+        /*
+        [Test]
         public void isRunning_StateUnderTest_ExpectedBehavior()
         {
             for (int i = 0; i < 5; i++) {
                 
             }
+
             // Arrange
-            Board board = new Board(300, 100, 5);
-            var simulation = new Simulation(board);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100,100,1);
 
             // Act
-            var result = simulation.isRunning();
+            var result = api.isRunning();
 
             // Assert
             Assert.IsFalse(result);
-        }*/
+        }
 
-/*        [Test]
+        [Test]
         public async Task startSimulation_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            Board board = new Board(300, 100, 5);
-            var simulation = new Simulation(board);
+            //Board board = new Board(300, 100, 5);
+            //var simulation = new Simulation(board);
 
             Thread thread = new Thread(simulation.startSimulation);
 

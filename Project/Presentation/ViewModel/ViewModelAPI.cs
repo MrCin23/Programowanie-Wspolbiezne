@@ -16,6 +16,7 @@ using System.Windows.Media.Media3D;
 
 namespace ViewModel
 {
+    //this class has to stay public, so that MainWindow.xaml can access it
     public class ViewModel : INotifyPropertyChanged
     {
         public ICommand startSimulation { get; set; }

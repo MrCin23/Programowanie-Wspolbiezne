@@ -10,11 +10,24 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    internal class Ball : DataAbstractAPI, INotifyPropertyChanged
+    public interface IBall
+    {
+        float x { get; set; }
+        float y { get; set; }
+        float getSize();
+        float getXVelocity();
+        float getYVelocity();
+        void setXVelocity(float xVelocity);
+        void setYVelocity(float yVelocity);
+        void RaisePropertyChanged([CallerMemberName] string propertyName = null);
+        event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    internal class Ball : DataAbstractAPI, INotifyPropertyChanged, IBall
     {
         public override event PropertyChangedEventHandler PropertyChanged;
 
-        private float size;
+        private float size { get; set; }
         private float density { get; } //currently unused as there are no forces
         private float Xvelocity;
         private float Yvelocity;

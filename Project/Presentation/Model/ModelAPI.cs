@@ -17,16 +17,15 @@ namespace Model
 {
     public abstract class ModelAbstractAPI : IObservable<IBall>
     {
-        public static ModelAbstractAPI CreateModelAPI(int x, int y, int amount)
+        public static ModelAbstractAPI CreateModelAPI(IBoard board)
         {
-            LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
-            Model model = new Model(LAAPI, amount);
-            return model;
+            //LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
+            return new Model(LAAPI, amount);
         }
         public abstract void StartSimulation();
         public abstract void StopSimulation();
         public abstract IDisposable Subscribe(IObserver<IBall> observer);
-        public abstract DrawBalls[] getballs();
+        public abstract IBall[] getballs();
 
         public abstract event PropertyChangedEventHandler PropertyChanged;
     }
@@ -41,7 +40,7 @@ namespace Model
         public IObservable<EventHandler> ballsChanged;
         DrawBalls[] drawBalls;
 
-        public override DrawBalls[] getballs()
+        public override IBall[] getballs()
         {
             return drawBalls;
         }

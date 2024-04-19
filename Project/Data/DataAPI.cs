@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public abstract class DataAbstractAPI
+    public abstract class DataAbstractAPI : IBall
     {
         public abstract float x { get; set; }
         public abstract float y { get; set; }

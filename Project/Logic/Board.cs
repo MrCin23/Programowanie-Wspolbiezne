@@ -7,26 +7,35 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    public class Board //internal
+    public interface IBoard
+    {
+        DataAbstractAPI[] getBalls();
+        void checkBorderCollision();
+        float[][] getCoordinates();
+    }
+
+    internal class Board : IBoard
     {
         public int sizeX {  get; }
         public int sizeY { get; }
-        internal DataAbstractAPI[] balls;
+
+        public DataAbstractAPI[] balls;
+
         public DataAbstractAPI[] getBalls()
         {
             return balls;
         }
 
-        public Board(int sizeX, int sizeY, DataAbstractAPI[] balls)
+        public Board(int sizeX, int sizeY, IBall[] balls)
         {
             this.sizeX = sizeX;
             this.sizeY = sizeY;
-            this.balls = balls;
+            this.balls = (DataAbstractAPI[])balls;
         }
 
         public void checkBorderCollision() 
         {
-            foreach (DataAbstractAPI ball in balls)
+            foreach (var ball in balls)
             {
                 if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX || 
                     ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
@@ -42,8 +51,7 @@ namespace Logic
                 }
             }
         }
-
-        internal float[][] getCoordinates()
+        public float[][] getCoordinates()
         {
             float[][] coordinates = new float[balls.Length][];
             for (int i = 0; i < balls.Length; i++)

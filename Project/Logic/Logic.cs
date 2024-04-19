@@ -13,7 +13,7 @@ namespace Logic
     public abstract class LogicAbstractAPI
     {
         public abstract event PropertyChangedEventHandler PropertyChanged;
-        public abstract Board getBoard();
+        internal abstract Board getBoard();
         public abstract bool isRunning();
         public abstract void startSimulation();
 
@@ -21,20 +21,20 @@ namespace Logic
 
         public abstract DataAbstractAPI[] getBalls();
 
-        public static LogicAbstractAPI CreateLogicAPI(int x, int y, int amount)
+        internal static Board CreateBoard(int x, int y, DataAbstractAPI[] balls)
         {
-            DataAbstractAPI[] balls = new DataAbstractAPI[amount];
-            for (int i = 0; i < amount; i++)
-            {
-                DataAbstractAPI ball = DataAbstractAPI.CreateDataAPI(x, y);
-                balls[i] = ball;
-            }
-            return new Simulation(new Board(x, y, balls));
+            return new Board(x, y, balls);
         }
+
+        public static LogicAbstractAPI CreateLogicAPI(IBoard board)
+        {
+            return new Simulation(board);
+        }
+
         public abstract float[][] getCoordinates();
     }
 
-    public class Logic
+    internal class Logic
     {
         static public DataAbstractAPI[] createBalls(int maxX, int maxY, int amount)
         {
@@ -68,7 +68,7 @@ namespace Logic
             ball.RaisePropertyChanged(nameof(ball.y));
         }
 
-        static public void updateBoard(Board board)
+        static internal void updateBoard(Board board)
         {
             for (int i = 0; i < board.balls.Length; i++)
             {
