@@ -23,7 +23,7 @@ namespace ViewModel
         public ICommand stopSimulation { get; set; }
         private ModelAbstractAPI api;
         public int amount;
-        public ObservableCollection<IBall> ballsToDraw { get; } = new ObservableCollection<IBall>();
+        public ObservableCollection<Model.IBall> ballsToDraw { get; } = new ObservableCollection<Model.IBall>();
         
         public ViewModel()
         {
@@ -40,9 +40,9 @@ namespace ViewModel
 
         private void startSimulationHandler(object obj)
         {
-            api = ModelAbstractAPI.CreateModelAPI(700, 300, chooseBallAmount);
-            IDisposable observer = api.Subscribe<IBall>(x => ballsToDraw.Add(x)); //look at ModelAPI.cs@89
-            foreach (IBall b in api.getballs())
+            api = ModelAbstractAPI.CreateModelAPI();
+            IDisposable observer = api.Subscribe<Model.IBall>(x => ballsToDraw.Add(x)); //look at ModelAPI.cs@89
+            foreach (Model.IBall b in api.getballs())
             {
                 ballsToDraw.Add(b);
             }

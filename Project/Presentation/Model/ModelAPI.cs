@@ -17,11 +17,18 @@ namespace Model
 {
     public abstract class ModelAbstractAPI : IObservable<IBall>
     {
-        public static ModelAbstractAPI CreateModelAPI(IBoard board)
+        /*        public static ModelAbstractAPI CreateModelAPI(IBoard board)
+                {
+                    //LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
+                    return new Model(LAAPI, amount);
+                }*/
+
+        public static ModelAbstractAPI CreateModelAPI()
         {
             //LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
-            return new Model(LAAPI, amount);
+            return new Model();
         }
+
         public abstract void StartSimulation();
         public abstract void StopSimulation();
         public abstract IDisposable Subscribe(IObserver<IBall> observer);
@@ -45,18 +52,29 @@ namespace Model
             return drawBalls;
         }
 
-        public Model(LogicAbstractAPI api, int amount)
+        /*        public Model(LogicAbstractAPI api, int amount)
+                {
+                    eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
+                    simulation = api;
+                    drawBalls = new DrawBalls[amount];
+                    for (int i = 0; i < amount; i++)
+                    {
+                        DrawBalls ball = new DrawBalls(api.getCoordinates()[i][0], api.getCoordinates()[i][1]);
+                        drawBalls[i] = ball;
+                        api.PropertyChanged += OnBallChanged; //send update to upper level
+                    }
+                }*/
+
+        public Model()
         {
             eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
-            simulation = api;
-            drawBalls = new DrawBalls[amount];
-            for (int i = 0; i < amount; i++)
-            {
-                DrawBalls ball = new DrawBalls(api.getCoordinates()[i][0], api.getCoordinates()[i][1]);
-                drawBalls[i] = ball;
-                api.PropertyChanged += OnBallChanged; //send update to upper level
-            }
         }
+
+        public void setLogicAPI(LogicAbstractAPI api)
+        {
+            simulation = api;
+        }
+
         private void OnBallChanged(object sender, PropertyChangedEventArgs args)
         {
             //reaction to update from layers below

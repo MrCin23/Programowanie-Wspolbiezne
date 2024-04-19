@@ -26,9 +26,14 @@ namespace Logic
             return new Board(x, y, balls);
         }
 
-        public static LogicAbstractAPI CreateLogicAPI(IBoard board)
+        /*        public static LogicAbstractAPI CreateLogicAPI(IBoard board)
+                {
+                    return new Simulation(board);
+                }*/
+
+        public static LogicAbstractAPI CreateLogicAPI()
         {
-            return new Simulation(board);
+            return new Simulation();
         }
 
         public abstract float[][] getCoordinates();

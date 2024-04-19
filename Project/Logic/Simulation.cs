@@ -22,14 +22,30 @@ namespace Logic
         private List<Thread> threads = new List<Thread>();
         private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
 
-        public Simulation(IBoard board) 
+        /*        public Simulation(IBoard board) 
+                {
+                    this.board = (Board)board;
+                    this.running = false;
+                    foreach (var ball in  board.getBalls())
+                    {
+                        this.observableData.Add(ball);
+                    }
+                }
+        */
+
+        public Simulation()
         {
-            this.board = (Board)board;
+            //this.board = (Board)board;
             this.running = false;
-            foreach (var ball in  board.getBalls())
+            /*foreach (var ball in board.getBalls())
             {
                 this.observableData.Add(ball);
-            }
+            }*/
+        }
+
+        public void setBoard(IBoard board)
+        {
+            this.board = (Board)board;
         }
 
         internal override Board getBoard()
