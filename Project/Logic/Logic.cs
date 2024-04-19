@@ -19,6 +19,8 @@ namespace Logic
 
         public abstract void stopSimulation();
 
+        public abstract DataAbstractAPI[] getBalls();
+
         public static LogicAbstractAPI CreateLogicAPI(int x, int y, int amount)
         {
             DataAbstractAPI[] balls = new DataAbstractAPI[amount];

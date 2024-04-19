@@ -37,6 +37,11 @@ namespace Logic
             return board;
         }
 
+        public override DataAbstractAPI[] getBalls()
+        {
+            return getBoard().getBalls();
+        }
+
         public override bool isRunning() { return running; }
 
         public override void startSimulation()
