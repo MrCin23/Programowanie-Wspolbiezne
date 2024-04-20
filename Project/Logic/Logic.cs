@@ -5,9 +5,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+[assembly: InternalsVisibleTo("LogicTests")]
 namespace Logic
 {
     public abstract class LogicAbstractAPI
@@ -19,7 +21,7 @@ namespace Logic
 
         public abstract void stopSimulation();
 
-        public abstract DataAbstractAPI[] getBalls();
+        public abstract IBall[] getBalls();
 
         internal static Board CreateBoard()
         {
@@ -27,18 +29,12 @@ namespace Logic
         }
         public abstract void getBoardParameters(int x, int y, int ballsAmount);
 
-
-        /*        public static LogicAbstractAPI CreateLogicAPI(IBoard board)
-                {
-                    return new Simulation(board);
-                }*/
-
         public static LogicAbstractAPI CreateLogicAPI()
         {
             return new Simulation();
         }
-
         public abstract float[][] getCoordinates();
+        public abstract void setBalls(IBall[] balls);
     }
 
     internal class Logic
@@ -53,20 +49,20 @@ namespace Logic
             return balls;
         }
 
-        static public void changeXdirection(DataAbstractAPI ball)
+        static public void changeXdirection(IBall ball)
         {
             ball.setXVelocity(-ball.getXVelocity());
             //ball.RaisePropertyChanged(nameof(ball.getXVelocity));
             //additional update unnecessary
         }
 
-        static public void changeYdirection(DataAbstractAPI ball)
+        static public void changeYdirection(IBall ball)
         {
             ball.setYVelocity(-ball.getYVelocity());
             //ball.RaisePropertyChanged(nameof(ball.getYVelocity));
         }
 
-        static public void updatePosition(DataAbstractAPI ball)
+        static public void updatePosition(IBall ball)
         {
             ball.x += ball.getXVelocity();
             ball.y += ball.getYVelocity();

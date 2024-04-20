@@ -1,126 +1,134 @@
-﻿using Logic;
+﻿using Data;
+using Logic;
 using NUnit.Framework;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace LogicTests
 {
+    public class TestBall : IBall
+    {
+        public float x { get; set; }
+        public float y { get; set; }
+        
+        private float Xvelocity;
+        private float Yvelocity;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public TestBall(float x, float y, float Xvelocity, float Yvelocity)
+        {
+            this.x = x;
+            this.y = y;
+            this.Xvelocity = Xvelocity;
+            this.Yvelocity = Yvelocity;
+        }
+
+        public float getXVelocity()
+        {
+            return Xvelocity;
+        }
+        public float getYVelocity()
+        {
+            return Yvelocity;
+        }
+        public void setXVelocity(float xVelocity)
+        {
+            this.Xvelocity=xVelocity;
+        }
+        public void setYVelocity(float yVelocity)
+        {
+            this.Yvelocity = yVelocity;
+        }
+
+        public float getSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     [TestFixture]
     public class LogicTests
     {
         [Test]
-        public void pass()
-        {
-            Assert.Pass();
-        }
-        /*[Test]
-        public void createBallsTest()
-        {
-            // Arrange
-
-            int maxX = 100;
-            int maxY = 100;
-            int amount = 10;
-
-            // Act
-            var result = Logic.Logic.createBalls(
-                maxX,
-                maxY,
-                amount);
-
-            // Assert
-            Assert.That(result.Length, Is.EqualTo(10));
-
-            foreach (var b in result)
-            {
-                Assert.IsTrue(b.x + b.getSize() / 2 <= maxX && b.x >= b.getSize() / 2);
-                Assert.IsTrue(b.y + b.getSize() / 2 <= maxY && b.y >= b.getSize() / 2);
-            }
-        }
-
-        [Test]
         public void changeXdirectionTest()
         {
             // Arrange
-            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
-
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI();
+            TestBall[] balls = new TestBall[1];
+            TestBall ball = new TestBall(50,50,0.5f,0.5f);
+            balls[0] = ball;
+            api.setBalls(balls);
+            
             // Act
-            var board = api.getBoard();
-            var balls = board.getBalls();
-            var ball = balls[0];
-            ball.setXVelocity(5);
-            ball.setYVelocity(0);
             Logic.Logic.changeXdirection(ball);
 
             // Assert
-            Assert.That(ball.getXVelocity(), Is.EqualTo(-5));
+            Assert.That(ball.getXVelocity(), Is.EqualTo(-0.5f));
         }
 
         [Test]
         public void changeYdirectionTest()
         {
             // Arrange
-            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI();
+            TestBall[] balls = new TestBall[1];
+            TestBall ball = new TestBall(50, 50, 0.5f, 0.5f);
+            balls[0] = ball;
+            api.setBalls(balls);
 
             // Act
-            var board = api.getBoard();
-            var balls = board.getBalls();
-            var ball = balls[0];
-            ball.setXVelocity(5);
-            ball.setYVelocity(0);
-            Logic.Logic.changeXdirection(ball);
-
-            // Act
-            ball.setXVelocity(0);
-            ball.setYVelocity(5);
             Logic.Logic.changeYdirection(ball);
 
             // Assert
-            Assert.That(ball.getYVelocity(), Is.EqualTo(-5));
+            Assert.That(ball.getYVelocity(), Is.EqualTo(-0.5f));
         }
 
         [Test]
         public void updatePositionTest()
         {
             // Arrange
-            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI(100, 100, 1);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI();
+            TestBall[] balls = new TestBall[1];
+            TestBall ball = new TestBall(50, 50, 0.5f, 0.5f);
+            balls[0] = ball;
+            api.setBalls(balls);
 
             // Act
-            var board = api.getBoard();
-            var balls = board.getBalls();
-            var ball = balls[0];
-            ball.setXVelocity(5);
-            ball.setYVelocity(0);
-            Logic.Logic.changeXdirection(ball);
-
-            // Act
-            ball.setXVelocity(5);
-            ball.setYVelocity(5);
-            ball.x = 50;
-            ball.y = 50;
             Logic.Logic.updatePosition(ball);
 
             // Assert
-            Assert.That(ball.x, Is.EqualTo(55).Within(0.001f));
-            Assert.That(ball.y, Is.EqualTo(55).Within(0.001f));
-        }*/
+            Assert.That(ball.x, Is.EqualTo(50.5f));
+            Assert.That(ball.y, Is.EqualTo(50.5f));
+        }
 
         /*[Test]
         public void updateBoardTest()
         {
             // Arrange
-            Board board = new Board(100, 100, 1);
+            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI();
+            TestBall[] balls = new TestBall[3];
+            TestBall ball1 = new TestBall(50, 50, 0.5f, 0.5f);
+            TestBall ball2 = new TestBall(20, 20, -0.5f, -0.5f);
+            TestBall ball3 = new TestBall(70, 70, -0.5f, 0.5f);
+            balls[0] = ball1;
+            balls[1] = ball2;
+            balls[2] = ball3;
+            api.setBalls(balls);
+
 
             // Act
-            board.getBalls()[0].x = 50;
-            board.getBalls()[0].y = 50;
-            board.getBalls()[0].setXVelocity(5);
-            board.getBalls()[0].setYVelocity(5);
-
-            Logic.Logic.updateBoard(board);
+            Logic.Logic.updateBoard();
 
             // Assert
-            Assert.That(board.getBalls()[0].x, Is.EqualTo(55).Within(0.001f));
-            Assert.That(board.getBalls()[0].y, Is.EqualTo(55).Within(0.001f));
+            Assert.That(ball.x, Is.EqualTo(50.5f));
+            Assert.That(ball.y, Is.EqualTo(50.5f));
         }*/
     }
 }

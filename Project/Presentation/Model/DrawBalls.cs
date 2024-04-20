@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class DrawBalls : IBall //internal
+    internal class DrawBalls : IBall
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private LogicAbstractAPI api;

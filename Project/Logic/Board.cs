@@ -9,7 +9,7 @@ namespace Logic
 {
     public interface IBoard
     {
-        DataAbstractAPI[] getBalls();
+        IBall[] getBalls();
         void checkBorderCollision();
         float[][] getCoordinates();
     }
@@ -19,9 +19,9 @@ namespace Logic
         public int sizeX { get; private set; }
         public int sizeY { get; private set; }
 
-        public DataAbstractAPI[] balls;
+        public IBall[] balls;
 
-        public DataAbstractAPI[] getBalls()
+        public IBall[] getBalls()
         {
             return balls;
         }
@@ -33,9 +33,7 @@ namespace Logic
             balls = Logic.createBalls(x, y, ballsAmount);
         }
 
-        public Board()
-        {
-        }
+        public Board(){} //di workaround
 
         public void checkBorderCollision() 
         {

@@ -22,33 +22,17 @@ namespace Logic
         private List<Thread> threads = new List<Thread>();
         private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
 
-        /*        public Simulation(IBoard board) 
-                {
-                    this.board = (Board)board;
-                    this.running = false;
-                    foreach (var ball in  board.getBalls())
-                    {
-                        this.observableData.Add(ball);
-                    }
-                }
-        */
-
-
         public Simulation(Board board = null)
         {
             if (board == null)
             {
-                this.board = LogicAbstractAPI.CreateBoard();
+                this.board = CreateBoard();
             }
             else
             {
                 this.board = board;
             }
             this.running = false;
-            /*foreach (var ball in board.getBalls())
-            {
-                this.observableData.Add(ball);
-            }*/
         }
 
         public void setBoard(IBoard board)
@@ -61,7 +45,7 @@ namespace Logic
             return board;
         }
 
-        public override DataAbstractAPI[] getBalls()
+        public override IBall[] getBalls()
         {
             return getBoard().getBalls();
         }
@@ -126,8 +110,13 @@ namespace Logic
             board.setBoardParameters(x, y, ballsAmount);
             foreach (var ball in board.getBalls())
             {
-                this.observableData.Add(ball);
+                this.observableData.Add((DataAbstractAPI)ball);
             }
+        }
+
+        public override void setBalls(IBall[] balls)
+        {
+            this.board.balls = balls;
         }
     }
 }

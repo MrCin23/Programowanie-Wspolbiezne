@@ -17,15 +17,8 @@ namespace Model
 {
     public abstract class ModelAbstractAPI : IObservable<IBall>
     {
-        /*        public static ModelAbstractAPI CreateModelAPI(IBoard board)
-                {
-                    //LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
-                    return new Model(LAAPI, amount);
-                }*/
-
         public static ModelAbstractAPI CreateModelAPI()
         {
-            //LogicAbstractAPI LAAPI = LogicAbstractAPI.CreateLogicAPI(700, 300, amount);
             return new Model();
         }
 
@@ -33,9 +26,7 @@ namespace Model
         public abstract void StopSimulation();
         public abstract IDisposable Subscribe(IObserver<IBall> observer);
         public abstract IBall[] getballs();
-
         public abstract event PropertyChangedEventHandler PropertyChanged;
-
         public abstract void getBoardParameters(int x, int y, int ballsAmount);
     }
 
@@ -51,7 +42,7 @@ namespace Model
         public override void getBoardParameters(int x, int y, int ballsAmount)
         {
             simulation.getBoardParameters(x, y, ballsAmount);
-            drawBalls = new DrawBalls[ballsAmount];
+            drawBalls = new DrawBalls[ballsAmount]; //todo
             for (int i = 0; i < ballsAmount; i++)
             {
                 DrawBalls ball = new DrawBalls(simulation.getCoordinates()[i][0], simulation.getCoordinates()[i][1]);
@@ -65,22 +56,8 @@ namespace Model
             return drawBalls;
         }
 
-        /*        public Model(LogicAbstractAPI api, int amount)
-                {
-                    eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
-                    simulation = api;
-                    drawBalls = new DrawBalls[amount];
-                    for (int i = 0; i < amount; i++)
-                    {
-                        DrawBalls ball = new DrawBalls(api.getCoordinates()[i][0], api.getCoordinates()[i][1]);
-                        drawBalls[i] = ball;
-                        api.PropertyChanged += OnBallChanged; //send update to upper level
-                    }
-                }*/
-
         public Model(LogicAbstractAPI api = null)
         {
-
             if (api == null)
             {
                 this.simulation = LogicAbstractAPI.CreateLogicAPI();
