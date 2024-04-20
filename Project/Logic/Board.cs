@@ -16,8 +16,8 @@ namespace Logic
 
     internal class Board : IBoard
     {
-        public int sizeX {  get; }
-        public int sizeY { get; }
+        public int sizeX { get; private set; }
+        public int sizeY { get; private set; }
 
         public DataAbstractAPI[] balls;
 
@@ -26,11 +26,15 @@ namespace Logic
             return balls;
         }
 
-        public Board(int sizeX, int sizeY, IBall[] balls)
+        public void setBoardParameters(int x, int y, int ballsAmount)
         {
-            this.sizeX = sizeX;
-            this.sizeY = sizeY;
-            this.balls = (DataAbstractAPI[])balls;
+            sizeX = x;
+            sizeY = y;
+            balls = Logic.createBalls(x, y, ballsAmount);
+        }
+
+        public Board()
+        {
         }
 
         public void checkBorderCollision() 

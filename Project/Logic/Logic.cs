@@ -21,10 +21,12 @@ namespace Logic
 
         public abstract DataAbstractAPI[] getBalls();
 
-        internal static Board CreateBoard(int x, int y, DataAbstractAPI[] balls)
+        internal static Board CreateBoard()
         {
-            return new Board(x, y, balls);
+            return new Board();
         }
+        public abstract void getBoardParameters(int x, int y, int ballsAmount);
+
 
         /*        public static LogicAbstractAPI CreateLogicAPI(IBoard board)
                 {

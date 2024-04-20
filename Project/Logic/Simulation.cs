@@ -33,9 +33,17 @@ namespace Logic
                 }
         */
 
-        public Simulation()
+
+        public Simulation(Board board = null)
         {
-            //this.board = (Board)board;
+            if (board == null)
+            {
+                this.board = LogicAbstractAPI.CreateBoard();
+            }
+            else
+            {
+                this.board = board;
+            }
             this.running = false;
             /*foreach (var ball in board.getBalls())
             {
@@ -112,6 +120,14 @@ namespace Logic
         private void RelayBallUpdate(object source, PropertyChangedEventArgs args)
         {
             this.OnPropertyChanged(args);
+        }
+        public override void getBoardParameters(int x, int y, int ballsAmount)
+        {
+            board.setBoardParameters(x, y, ballsAmount);
+            foreach (var ball in board.getBalls())
+            {
+                this.observableData.Add(ball);
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace ViewModel
         public ICommand stopSimulation { get; set; }
         private ModelAbstractAPI api;
         public int amount;
+
         public ObservableCollection<Model.IBall> ballsToDraw { get; } = new ObservableCollection<Model.IBall>();
         
         public ViewModel()
@@ -41,12 +42,17 @@ namespace ViewModel
         private void startSimulationHandler(object obj)
         {
             api = ModelAbstractAPI.CreateModelAPI();
+            getBoardParameters(700, 300, amount);
             IDisposable observer = api.Subscribe<Model.IBall>(x => ballsToDraw.Add(x)); //look at ModelAPI.cs@89
             foreach (Model.IBall b in api.getballs())
             {
                 ballsToDraw.Add(b);
             }
             api.StartSimulation();
+        }
+
+        private void getBoardParameters(int x, int y, int ballsAmount) {
+            api.getBoardParameters(x, y, ballsAmount);
         }
 
         private void stopSimulationHandler(object obj)

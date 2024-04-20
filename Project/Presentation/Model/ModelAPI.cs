@@ -35,6 +35,8 @@ namespace Model
         public abstract IBall[] getballs();
 
         public abstract event PropertyChangedEventHandler PropertyChanged;
+
+        public abstract void getBoardParameters(int x, int y, int ballsAmount);
     }
 
 
@@ -46,6 +48,17 @@ namespace Model
         public event EventHandler<BallChangeEventArgs> BallChanged;
         public IObservable<EventHandler> ballsChanged;
         DrawBalls[] drawBalls;
+        public override void getBoardParameters(int x, int y, int ballsAmount)
+        {
+            simulation.getBoardParameters(x, y, ballsAmount);
+            drawBalls = new DrawBalls[ballsAmount];
+            for (int i = 0; i < ballsAmount; i++)
+            {
+                DrawBalls ball = new DrawBalls(simulation.getCoordinates()[i][0], simulation.getCoordinates()[i][1]);
+                drawBalls[i] = ball;
+                simulation.PropertyChanged += OnBallChanged; //send update to upper level
+            }
+        }
 
         public override IBall[] getballs()
         {
@@ -65,8 +78,17 @@ namespace Model
                     }
                 }*/
 
-        public Model()
+        public Model(LogicAbstractAPI api = null)
         {
+
+            if (api == null)
+            {
+                this.simulation = LogicAbstractAPI.CreateLogicAPI();
+            }
+            else
+            {
+                this.simulation = api;
+            }
             eventObservable = Observable.FromEventPattern<BallChangeEventArgs>(this, "BallChanged");
         }
 
