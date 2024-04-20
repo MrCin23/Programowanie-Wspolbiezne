@@ -71,7 +71,7 @@ namespace Data
         }
 
         private float randomPosition(int maxPositon) {
-            return (float)rnd.NextDouble() * (maxPositon - this.size) + this.size/2;
+            return (float)rnd.NextDouble() * (maxPositon - this.size);
         }
 
         private float randomVelocity() {
