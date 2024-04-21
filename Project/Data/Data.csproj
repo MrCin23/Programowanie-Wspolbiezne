@@ -7,8 +7,8 @@
     <ProjectGuid>{9F7981C9-5801-43D3-9A85-F67DC2E09740}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C__aaaaa</RootNamespace>
-    <AssemblyName>C# aaaaa</AssemblyName>
+    <RootNamespace>Data</RootNamespace>
+    <AssemblyName>Data</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
