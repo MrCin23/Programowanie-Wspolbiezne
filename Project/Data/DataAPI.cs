@@ -23,5 +23,6 @@ namespace Data
             return new Ball(maxX, maxY);
         }
         public abstract void RaisePropertyChanged([CallerMemberName] string propertyName = "");
+        public abstract float getMass();
     }
 }

@@ -81,5 +81,10 @@ namespace Data
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override float getMass()
+        {
+            return (float)(4 / 3 * Math.PI * Math.Pow(size, 3)) * density; 
+        }
     }
 }

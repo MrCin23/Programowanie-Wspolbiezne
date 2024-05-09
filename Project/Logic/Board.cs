@@ -65,5 +65,37 @@ namespace Logic
             }
             return coordinates;
         }
+
+        public static void Collision(DataAbstractAPI ball1, DataAbstractAPI ball2)
+        {
+            // Oblicz wektor normalny
+            float dx = ball2.x - ball1.x;
+            float dy = ball2.y - ball1.y;
+            float distance = (float)Math.Sqrt(dx * dx + dy * dy); // odległość między kulami
+            float n_x = dx / distance; // składowa x wektora normalnego
+            float n_y = dy / distance; // składowa y wektora normalnego
+
+            // Oblicz wektor styczny
+            float t_x = -n_y; // składowa x wektora stycznego
+            float t_y = n_x;  // składowa y wektora stycznego
+
+            // Prędkości wzdłuż normalnej i stycznej
+            float v1n = ball1.getXVelocity() * n_x + ball1.getYVelocity() * n_y;
+            float v1t = ball1.getXVelocity() * t_x + ball1.getYVelocity() * t_y;
+
+            float v2n = ball2.getXVelocity() * n_x + ball2.getYVelocity() * n_y;
+            float v2t = ball2.getXVelocity() * t_x + ball2.getYVelocity() * t_y;
+
+            // Nowe prędkości wzdłuż normalnej po zderzeniu
+            float u1n = ((ball1.getMass() - ball2.getMass()) * v1n + 2 * ball2.getMass() * v2n) / (ball1.getMass() + ball2.getMass());
+            float u2n = ((ball2.getMass() - ball1.getMass()) * v2n + 2 * ball1.getMass() * v1n) / (ball2.getMass() + ball1.getMass());
+
+            // Nowe prędkości całkowite dla każdej kuli
+            ball1.setXVelocity(u1n * n_x + v1t * t_x);
+            ball1.setXVelocity(u1n * n_y + v1t * t_y);
+
+            ball2.setXVelocity(u2n * n_x + v2t * t_x);
+            ball2.setXVelocity(u2n * n_y + v2t * t_y);
+        }
     }
 }
