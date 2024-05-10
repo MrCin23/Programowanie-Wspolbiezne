@@ -19,7 +19,7 @@ namespace Logic
 
         private Board board;
         private bool running;
-        private List<Thread> threads = new List<Thread>();
+        private List<Task> tasks = new List<Task>();
         private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
 
         public Simulation(Board board = null)
@@ -66,7 +66,7 @@ namespace Logic
             if(running)
             {
                 this.running = false;
-                threads.Clear();
+                tasks.Clear();
             }
         }
 
@@ -74,7 +74,7 @@ namespace Logic
         {
             foreach (var ball in this.board.getBalls())
             {
-                Thread thread = new Thread(() =>
+                Task task = new Task(() =>
                 {
                     while (this.running)
                     {
@@ -84,9 +84,9 @@ namespace Logic
                         Thread.Sleep(10);
                     }
                 });
-                thread.IsBackground = true;
-                thread.Start();
-                threads.Add(thread);
+//                task.IsBackground = true;
+                task.Start();
+                tasks.Add(task);
             }
         }
 
