@@ -30,7 +30,7 @@ namespace Data
         public event PropertyChangedEventHandler PropertyChanged;
 
         private float size { get; set; }
-        private float density { get; } //currently unused as there are no forces
+        private float density { get; set; } //currently unused as there are no forces
         private float Xvelocity;
         private float Yvelocity;
         public float x { get; set; }
@@ -66,6 +66,7 @@ namespace Data
         public Ball(int maxX, int maxY)
         {
             this.size = 10.0f;
+            this.density = 10;
             this.x = randomPosition(maxX);
             this.y = randomPosition(maxY);
             this.Xvelocity = randomVelocity();
