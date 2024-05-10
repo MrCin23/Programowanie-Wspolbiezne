@@ -15,7 +15,7 @@ namespace Logic
     public abstract class LogicAbstractAPI
     {
         public abstract event PropertyChangedEventHandler PropertyChanged;
-        internal abstract Board getBoard();
+        internal abstract DataAbstractAPI getBoard();
         public abstract bool isRunning();
         public abstract void startSimulation();
 
@@ -23,10 +23,10 @@ namespace Logic
 
         public abstract IBall[] getBalls();
 
-        internal static Board CreateBoard()
+/*        internal static DataAbstractAPI CreateBoard(int x, int y, int ballsAmount)
         {
-            return new Board();
-        }
+            return new DataAbstractAPI(x, y, ballsAmount);
+        }*/
         public abstract void getBoardParameters(int x, int y, int ballsAmount);
 
         public static LogicAbstractAPI CreateLogicAPI()
@@ -39,14 +39,14 @@ namespace Logic
 
     internal class Logic
     {
-        static public DataAbstractAPI[] createBalls(int maxX, int maxY, int amount)
+        static public IBall[] createBalls(int maxX, int maxY, int amount)
         {
             DataAbstractAPI[] balls = new DataAbstractAPI[amount];
             for (int i = 0; i < balls.Length; i++)
             {
-                balls[i] = DataAbstractAPI.CreateDataAPI(maxX, maxY);
+                balls[i] = DataAbstractAPI.CreateDataAPI(); //maxX, maxY, amount
             }
-            return balls;
+            return (IBall[])balls;
         }
 
         static public void changeXdirection(IBall ball)
@@ -62,21 +62,13 @@ namespace Logic
             //ball.RaisePropertyChanged(nameof(ball.getYVelocity));
         }
 
-        static public void updatePosition(IBall ball)
-        {
-            ball.x += ball.getXVelocity();
-            ball.y += ball.getYVelocity();
 
-            ball.RaisePropertyChanged(nameof(ball.x));
-            ball.RaisePropertyChanged(nameof(ball.y));
-        }
-
-        static internal void updateBoard(Board board)
+/*        static internal void updateBoard(IBoard board)
         {
-            for (int i = 0; i < board.balls.Length; i++)
+            for (int i = 0; i < board.getBalls().Length; i++)
             {
-                updatePosition(board.balls[i]);
+                updatePosition(board.getBalls()[i]);
             }
-        }
+        }*/
     }
 }

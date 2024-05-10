@@ -3,6 +3,7 @@ using Logic;
 using NUnit.Framework;
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 
 namespace LogicTests
@@ -14,6 +15,8 @@ namespace LogicTests
         
         private float Xvelocity;
         private float Yvelocity;
+        private float density;
+        private float size;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -50,6 +53,17 @@ namespace LogicTests
         public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public float getMass()
+        {
+            return (float)(4 / 3 * Math.PI * Math.Pow(size, 3)) * density; // TODO
+        }
+
+        public void updatePosition()
+        {
+            x += getXVelocity();
+            y += getYVelocity();
         }
     }
 
@@ -101,7 +115,7 @@ namespace LogicTests
             api.setBalls(balls);
 
             // Act
-            Logic.Logic.updatePosition(ball);
+            ball.updatePosition();
 
             // Assert
             Assert.That(ball.x, Is.EqualTo(50.5f));

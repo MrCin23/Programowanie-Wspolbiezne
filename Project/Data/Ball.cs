@@ -19,8 +19,10 @@ namespace Data
         float getYVelocity();
         void setXVelocity(float xVelocity);
         void setYVelocity(float yVelocity);
+        float getMass();
         void RaisePropertyChanged([CallerMemberName] string propertyName = null);
         event PropertyChangedEventHandler PropertyChanged;
+        void updatePosition();
     }
 
     internal class Ball : INotifyPropertyChanged, IBall
@@ -85,6 +87,15 @@ namespace Data
         public float getMass()
         {
             return (float)(4 / 3 * Math.PI * Math.Pow(size, 3)) * density; 
+        }
+
+        public void updatePosition()
+        {
+            x += getXVelocity();
+            y += getYVelocity();
+
+            RaisePropertyChanged(nameof(x));
+            RaisePropertyChanged(nameof(y));
         }
     }
 }

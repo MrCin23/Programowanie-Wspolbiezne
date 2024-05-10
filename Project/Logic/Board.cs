@@ -7,13 +7,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    public interface IBoard
-    {
-        IBall[] getBalls();
-        void checkBorderCollision();
-        float[][] getCoordinates();
-    }
-
+/*
     internal class Board : IBoard
     {
         public int sizeX { get; private set; }
@@ -74,7 +68,7 @@ namespace Logic
             }
         }
 
-        public static void Collision(DataAbstractAPI ball1, DataAbstractAPI ball2)
+        public static void Collision(IBall ball1, IBall ball2)
         {
             // Oblicz wektor normalny
             float dx = ball2.x - ball1.x;
@@ -105,5 +99,5 @@ namespace Logic
             ball2.setXVelocity(u2n * n_x + v2t * t_x);
             ball2.setXVelocity(u2n * n_y + v2t * t_y);
         }
-    }
+    }*/
 }

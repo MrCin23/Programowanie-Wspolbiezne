@@ -10,9 +10,11 @@ namespace DataTests
         public void getSizeTest()
         {
             // Arrange
-            var ball = DataAbstractAPI.CreateDataAPI(100, 100);
+            var board = DataAbstractAPI.CreateDataAPI();
+            board.setBoardParameters(100, 100, 1);
 
             // Act
+            IBall ball = board.getBalls()[0];
             var result = ball.getSize();
 
             // Assert
@@ -24,27 +26,29 @@ namespace DataTests
         public void setXVelocityTest()
         {
             // Arrange
-            var api = DataAbstractAPI.CreateDataAPI(100, 100);
+            var board = DataAbstractAPI.CreateDataAPI();
+            board.setBoardParameters(100, 100, 1);
             float xVelocity = 10.0f;
 
             // Act
-            api.setXVelocity(
-                xVelocity);
+            IBall ball = board.getBalls()[0];
+            ball.setXVelocity(xVelocity);
 
             // Assert
-            Assert.That(xVelocity, Is.EqualTo(api.getXVelocity()));
+            Assert.That(xVelocity, Is.EqualTo(ball.getXVelocity()));
         }
 
         [Test]
         public void setYVelocityTest()
         {
             // Arrange
-            var ball = DataAbstractAPI.CreateDataAPI(100, 100);
+            var board = DataAbstractAPI.CreateDataAPI();
+            board.setBoardParameters(100, 100, 1);
             float yVelocity = 10.0f;
 
             // Act
-            ball.setYVelocity(
-                yVelocity);
+            IBall ball = board.getBalls()[0];
+            ball.setYVelocity(yVelocity);
 
             // Assert
             Assert.That(yVelocity, Is.EqualTo(ball.getYVelocity()));
@@ -53,10 +57,12 @@ namespace DataTests
         [Test]
         public void positionTest()
         {
-            var ball = DataAbstractAPI.CreateDataAPI(100, 100);
+            var board = DataAbstractAPI.CreateDataAPI();
+            board.setBoardParameters(100, 100, 1);
             float posx = 50;
             float posy = 50;
 
+            IBall ball = board.getBalls()[0];
             ball.x = posx;
             ball.y = posy;
 

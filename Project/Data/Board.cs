@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    internal class Board: DataAbstractAPI
+    public interface IBoard
     {
-        public int sizeX { get; private set; }
-        public int sizeY { get; private set; }
+        IBall[] getBalls();
+        void checkBorderCollision();
+        float[][] getCoordinates();
+    }
+
+    internal class Board : DataAbstractAPI
+    {
+        public override int sizeX { get; set; }
+        public override int sizeY { get; set; }
 
         public IBall[] balls;
 
@@ -18,7 +25,12 @@ namespace Data
             return balls;
         }
 
-        public void setBoardParameters(int x, int y, int ballsAmount)
+        public override void setBalls(IBall[] balls)
+        {
+            this.balls = balls;
+        }
+
+        public override void setBoardParameters(int x, int y, int ballsAmount)
         {
             sizeX = x;
             sizeY = y;
@@ -32,33 +44,31 @@ namespace Data
             {
                 balls[i] = new Ball(maxX, maxY);
             }
+            this.balls = balls;
         }
 
-        public Board(int maxX, int maxY, int amount) 
+
+        public Board() //int maxX, int maxY, int amount
         {
-            sizeX = maxX;
+/*            sizeX = maxX;
             sizeY = maxY;
-            createBalls(maxX, maxY, amount);
+            createBalls(maxX, maxY, amount);*/
         } //di workaround
 
-        public void checkBorderCollision()
+        public override void updatePosition(IBall ball) 
         {
-            foreach (var ball in balls)
+            foreach (IBall b in balls)
             {
-                if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX ||
-                    ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
+                if (b == ball)
                 {
-                    Logic.changeXdirection(ball);
-                    Logic.updatePosition(ball);
-                }
-                if (ball.y + ball.getSize() >= this.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= this.sizeY ||
-                    ball.y <= 0 || ball.y + ball.getYVelocity() <= 0)
-                {
-                    Logic.changeYdirection(ball);
-                    Logic.updatePosition(ball);
+                    ball.updatePosition();
+                    ball.RaisePropertyChanged(nameof(ball.x));
+                    ball.RaisePropertyChanged(nameof(ball.y));
                 }
             }
+
         }
+
         public override float[][] getCoordinates()
         {
             float[][] coordinates = new float[balls.Length][];
@@ -71,4 +81,5 @@ namespace Data
             }
             return coordinates;
         }
+    }
 }

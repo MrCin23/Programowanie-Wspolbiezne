@@ -13,12 +13,17 @@ namespace Data
 
     public abstract class DataAbstractAPI
     {
-        public static DataAbstractAPI CreateDataAPI(int maxX, int maxY, int amount)
+        public abstract int sizeX { get; set; }
+        public abstract int sizeY { get; set; }
+        public static DataAbstractAPI CreateDataAPI() //int maxX, int maxY, int amount
         {
-            return new Board(maxX, maxY, amount);
+            return new Board();
         }
         public abstract IBall[] getBalls();
+        public abstract void setBalls(IBall[] balls);
         public abstract float[][] getCoordinates();
+        public abstract void setBoardParameters(int x, int y, int ballsAmount);
+        public abstract void updatePosition(IBall ball);
     }
 
     /*public abstract class DataAbstractAPI : IBall

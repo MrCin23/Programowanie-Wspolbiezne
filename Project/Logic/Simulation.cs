@@ -17,16 +17,16 @@ namespace Logic
     internal class Simulation : LogicAbstractAPI, INotifyPropertyChanged
     {
 
-        private Board board;
+        private DataAbstractAPI board;
         private bool running;
         private List<Task> tasks = new List<Task>();
-        private ObservableCollection<DataAbstractAPI> observableData = new ObservableCollection<DataAbstractAPI>();
+        private ObservableCollection<IBall> observableData = new ObservableCollection<IBall>();
 
-        public Simulation(Board board = null)
+        public Simulation(DataAbstractAPI board = null)
         {
             if (board == null)
             {
-                this.board = CreateBoard();
+                this.board = DataAbstractAPI.CreateDataAPI();
             }
             else
             {
@@ -37,10 +37,10 @@ namespace Logic
 
         public void setBoard(IBoard board)
         {
-            this.board = (Board)board;
+            this.board = (DataAbstractAPI)board;
         }
 
-        internal override Board getBoard()
+        internal override DataAbstractAPI getBoard()
         {
             return board;
         }
@@ -72,18 +72,19 @@ namespace Logic
 
         private void mainLoop()
         {
-            Task tableTask = new Task(() => board.lookForCollisions());
-            tableTask.Start();
+            /*Task tableTask = new Task(() => board.lookForCollisions());
+            tableTask.Start();*/
             foreach (var ball in this.board.getBalls())
             {
                 Task task = new Task(() =>
                 {
                     while (this.running)
                     {
-                        this.board.checkBorderCollision();
-                        Logic.updatePosition(ball);
+                        checkBorderCollisionForBall(ball);
+                        //Logic.updatePosition(ball);
                         ball.PropertyChanged += RelayBallUpdate;
-                        Thread.Sleep(10); //Przemyśleć jak to zmienić
+                        //Thread.Sleep(10); //Przemyśleć jak to zmienić
+                        Task.Delay(10);
                     }
                 });
 //                task.IsBackground = true;
@@ -95,21 +96,37 @@ namespace Logic
         public void checkBorderCollision()
         {
 
-            foreach (var ball in balls)
+            foreach (var ball in board.getBalls())
             {
-                if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX ||
+                if (ball.x + ball.getSize() >= board.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= board.sizeX ||
                     ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
                 {
                     Logic.changeXdirection(ball);
-                    Logic.updatePosition(ball);
+                    updatePosition(ball);
                 }
-                if (ball.y + ball.getSize() >= this.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= this.sizeY ||
+                if (ball.y + ball.getSize() >= board.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= board.sizeY ||
                     ball.y <= 0 || ball.y + ball.getYVelocity() <= 0)
                 {
                     Logic.changeYdirection(ball);
-                    Logic.updatePosition(ball);
+                    updatePosition(ball);
                 }
             }
+        }
+
+        public void checkBorderCollisionForBall(IBall ball)
+        {
+            if (ball.x + ball.getSize() >= board.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= board.sizeX ||
+                ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
+            {
+                Debug.WriteLine(board.sizeX + ", " + board.sizeY + ", " + ball.x + " , " + ball.y);
+                Logic.changeXdirection(ball);
+            }
+            if (ball.y + ball.getSize() >= board.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= board.sizeY ||
+                ball.y <= 0 || ball.y + ball.getYVelocity() <= 0)
+            {
+                Logic.changeYdirection(ball);
+            }
+            updatePosition(ball);
         }
 
         public override float[][] getCoordinates()
@@ -132,13 +149,21 @@ namespace Logic
             board.setBoardParameters(x, y, ballsAmount);
             foreach (var ball in board.getBalls())
             {
-                this.observableData.Add((DataAbstractAPI)ball);
+                this.observableData.Add((IBall)ball);
             }
         }
 
         public override void setBalls(IBall[] balls)
         {
-            this.board.balls = balls;
+            this.board.setBalls(balls);
+        }
+
+        public void updatePosition(IBall ball)
+        {
+            board.updatePosition(ball);
+
+            ball.RaisePropertyChanged(nameof(ball.x));
+            ball.RaisePropertyChanged(nameof(ball.y));
         }
     }
 }
