@@ -66,6 +66,14 @@ namespace Logic
             return coordinates;
         }
 
+        public void lookForCollisions()
+        {
+            while(true)
+            {
+
+            }
+        }
+
         public static void Collision(DataAbstractAPI ball1, DataAbstractAPI ball2)
         {
             // Oblicz wektor normalny

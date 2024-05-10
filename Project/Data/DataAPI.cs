@@ -8,7 +8,20 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public abstract class DataAbstractAPI : IBall
+
+    //Chyba szykuje się duży refaktoring pt. Zmiany DataAPI z Ball na Board
+
+    public abstract class DataAbstractAPI
+    {
+        public static DataAbstractAPI CreateDataAPI(int maxX, int maxY, int amount)
+        {
+            return new Board(maxX, maxY, amount);
+        }
+        public abstract IBall[] getBalls();
+        public abstract float[][] getCoordinates();
+    }
+
+    /*public abstract class DataAbstractAPI : IBall
     {
         public abstract float x { get; set; }
         public abstract float y { get; set; }
@@ -24,5 +37,5 @@ namespace Data
         }
         public abstract void RaisePropertyChanged([CallerMemberName] string propertyName = "");
         public abstract float getMass();
-    }
+    }*/
 }

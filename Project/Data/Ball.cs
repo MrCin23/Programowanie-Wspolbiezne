@@ -23,39 +23,39 @@ namespace Data
         event PropertyChangedEventHandler PropertyChanged;
     }
 
-    internal class Ball : DataAbstractAPI, INotifyPropertyChanged, IBall
+    internal class Ball : INotifyPropertyChanged, IBall
     {
-        public override event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private float size { get; set; }
         private float density { get; } //currently unused as there are no forces
         private float Xvelocity;
         private float Yvelocity;
-        public override float x { get; set; }
-        public override float y { get; set; }
+        public float x { get; set; }
+        public float y { get; set; }
         public static readonly float maxVelocity = 2.0f;
 
-        public override float getSize() 
+        public float getSize() 
         { 
             return size; 
         }
 
-        public override float getXVelocity()
+        public float getXVelocity()
         {
             return Xvelocity;
         }
 
-        public override float getYVelocity()
+        public float getYVelocity()
         {
             return Yvelocity;
         }
 
-        public override void setXVelocity(float xVelocity)
+        public void setXVelocity(float xVelocity)
         {
             Xvelocity = xVelocity;
         }
 
-        public override void setYVelocity(float yVelocity)
+        public void setYVelocity(float yVelocity)
         {
             Yvelocity = yVelocity;
         }
@@ -77,12 +77,12 @@ namespace Data
         private float randomVelocity() {
             return (float)(rnd.NextDouble() * (maxVelocity) - maxVelocity/2);
         }
-        public override void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public override float getMass()
+        public float getMass()
         {
             return (float)(4 / 3 * Math.PI * Math.Pow(size, 3)) * density; 
         }

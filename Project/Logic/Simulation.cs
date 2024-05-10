@@ -57,8 +57,8 @@ namespace Logic
             if(!running)
             {
                 this.running = true;
+                mainLoop();
             }
-            mainLoop();
         }
 
         public override void stopSimulation() 
@@ -72,6 +72,8 @@ namespace Logic
 
         private void mainLoop()
         {
+            Task tableTask = new Task(() => board.lookForCollisions());
+            tableTask.Start();
             foreach (var ball in this.board.getBalls())
             {
                 Task task = new Task(() =>
@@ -81,12 +83,32 @@ namespace Logic
                         this.board.checkBorderCollision();
                         Logic.updatePosition(ball);
                         ball.PropertyChanged += RelayBallUpdate;
-                        Thread.Sleep(10);
+                        Thread.Sleep(10); //Przemyśleć jak to zmienić
                     }
                 });
 //                task.IsBackground = true;
                 task.Start();
                 tasks.Add(task);
+            }
+        }
+
+        public void checkBorderCollision()
+        {
+
+            foreach (var ball in balls)
+            {
+                if (ball.x + ball.getSize() >= this.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= this.sizeX ||
+                    ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
+                {
+                    Logic.changeXdirection(ball);
+                    Logic.updatePosition(ball);
+                }
+                if (ball.y + ball.getSize() >= this.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= this.sizeY ||
+                    ball.y <= 0 || ball.y + ball.getYVelocity() <= 0)
+                {
+                    Logic.changeYdirection(ball);
+                    Logic.updatePosition(ball);
+                }
             }
         }
 
