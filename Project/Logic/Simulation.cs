@@ -108,7 +108,7 @@ namespace Logic
                     {
                         if (ball1 == ball2)
                         { continue; }
-                        if (Math.Sqrt((ball1.x - ball2.x) * (ball1.x - ball2.x) + (ball1.y - ball2.y) * (ball1.y - ball2.y)) <= ball1.getSize() + ball2.getSize())
+                        if (Math.Sqrt((ball1.x - ball2.x) * (ball1.x - ball2.x) + (ball1.y - ball2.y) * (ball1.y - ball2.y)) <= ball1.getSize()/2 + ball2.getSize()/2)
                         {
                             lock (ball1)
                             {
