@@ -19,7 +19,7 @@ namespace Logic
 
         private DataAbstractAPI board;
         private bool running;
-        private List<Task> tasks = new List<Task>();
+        private List<Thread> threads = new List<Thread>();
         private ObservableCollection<IBall> observableData = new ObservableCollection<IBall>();
 
         public Simulation(DataAbstractAPI board = null)
@@ -66,34 +66,33 @@ namespace Logic
             if(running)
             {
                 this.running = false;
-                tasks.Clear();
+                threads.Clear();
+                //board.clear();
             }
         }
 
         private void mainLoop()
         {
-            Task tableTask = new Task(() =>
+            Thread tableTask = new Thread(() =>
             {
                 lookForCollisions();
-                Task.Delay(10);
+                Thread.Sleep(10);
             });
             tableTask.Start();
             foreach (var ball in this.board.getBalls())
             {
-                Task task = new Task(() =>
+                Thread thread = new Thread(() =>
                 {
                     while (this.running)
                     {
                         checkBorderCollisionForBall(ball);
-                        //Logic.updatePosition(ball);
                         ball.PropertyChanged += RelayBallUpdate;
-                        //Thread.Sleep(10); //Przemyśleć jak to zmienić
-                        Task.Delay(10);
+                        Thread.Sleep(10);
                     }
                 });
-//                task.IsBackground = true;
-                task.Start();
-                tasks.Add(task);
+                thread.IsBackground = true;
+                thread.Start();
+                threads.Add(thread);
             }
         }
 
@@ -159,26 +158,6 @@ namespace Logic
             ball2.setYVelocity(u2n * (n_y) + v2t * (t_y));
             Console.WriteLine("aaa");
         }
-
-        /*        public void checkBorderCollision()
-                {
-
-                    foreach (var ball in board.getBalls())
-                    {
-                        if (ball.x + ball.getSize() >= board.sizeX || ball.x + ball.getXVelocity() + ball.getSize() >= board.sizeX ||
-                            ball.x <= 0 || ball.x + ball.getXVelocity() <= 0)
-                        {
-                            Logic.changeXdirection(ball);
-                            updatePosition(ball);
-                        }
-                        if (ball.y + ball.getSize() >= board.sizeY || ball.y + ball.getYVelocity() + ball.getSize() >= board.sizeY ||
-                            ball.y <= 0 || ball.y + ball.getYVelocity() <= 0)
-                        {
-                            Logic.changeYdirection(ball);
-                            updatePosition(ball);
-                        }
-                    }
-                }*/
 
         public void checkBorderCollisionForBall(IBall ball)
         {

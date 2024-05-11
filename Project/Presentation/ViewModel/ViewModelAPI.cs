@@ -22,6 +22,7 @@ namespace ViewModel
         public ICommand stopSimulation { get; set; }
         private ModelAbstractAPI api;
         public int amount;
+        private Task task;
 
         public ObservableCollection<Model.IBall> ballsToDraw { get; } = new ObservableCollection<Model.IBall>();
         
@@ -47,7 +48,11 @@ namespace ViewModel
             {
                 ballsToDraw.Add(b);
             }
-            api.StartSimulation();
+            task = new Task(() =>
+            {
+                api.StartSimulation();
+            });
+            task.Start();
         }
 
         private void getBoardParameters(int x, int y, int ballsAmount) {
@@ -57,6 +62,8 @@ namespace ViewModel
         private void stopSimulationHandler(object obj)
         {
             api.StopSimulation();
+            ballsToDraw.Clear();
+            task.Dispose();
         }
 
         public int chooseBallAmount

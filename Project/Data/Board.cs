@@ -20,6 +20,11 @@ namespace Data
 
         public IBall[] balls;
 
+        public override void clear()
+        {
+            balls = new IBall[0];
+        }
+
         public override IBall[] getBalls()
         {
             return balls;
@@ -47,13 +52,7 @@ namespace Data
             this.balls = balls;
         }
 
-
-        public Board() //int maxX, int maxY, int amount
-        {
-/*            sizeX = maxX;
-            sizeY = maxY;
-            createBalls(maxX, maxY, amount);*/
-        } //di workaround
+        public Board(){} //di workaround
 
         public override void updatePosition(IBall ball) 
         {

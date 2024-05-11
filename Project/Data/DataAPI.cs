@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-
-    //Chyba szykuje się duży refaktoring pt. Zmiany DataAPI z Ball na Board
-
     public abstract class DataAbstractAPI
     {
         public abstract int sizeX { get; set; }
         public abstract int sizeY { get; set; }
-        public static DataAbstractAPI CreateDataAPI() //int maxX, int maxY, int amount
+        public static DataAbstractAPI CreateDataAPI()
         {
             return new Board();
         }
@@ -24,23 +21,6 @@ namespace Data
         public abstract float[][] getCoordinates();
         public abstract void setBoardParameters(int x, int y, int ballsAmount);
         public abstract void updatePosition(IBall ball);
+        public abstract void clear();
     }
-
-    /*public abstract class DataAbstractAPI : IBall
-    {
-        public abstract float x { get; set; }
-        public abstract float y { get; set; }
-        public abstract event PropertyChangedEventHandler PropertyChanged;
-        public abstract float getSize();
-        public abstract float getXVelocity();
-        public abstract float getYVelocity();
-        public abstract void setXVelocity(float xVelocity);
-        public abstract void setYVelocity(float yVelocity);
-        public static DataAbstractAPI CreateDataAPI(int maxX, int maxY)
-        {
-            return new Ball(maxX, maxY);
-        }
-        public abstract void RaisePropertyChanged([CallerMemberName] string propertyName = "");
-        public abstract float getMass();
-    }*/
 }

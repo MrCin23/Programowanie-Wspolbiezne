@@ -92,11 +92,14 @@ namespace Data
 
         public void updatePosition()
         {
-            x += getXVelocity();
-            y += getYVelocity();
+            lock (this)
+            {
+                x += getXVelocity();
+                y += getYVelocity();
 
-            RaisePropertyChanged(nameof(x));
-            RaisePropertyChanged(nameof(y));
+                RaisePropertyChanged(nameof(x));
+                RaisePropertyChanged(nameof(y));
+            }
         }
     }
 }
