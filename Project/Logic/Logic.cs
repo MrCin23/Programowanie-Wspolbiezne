@@ -57,14 +57,5 @@ namespace Logic
             ball.setYVelocity(-ball.getYVelocity());
             //ball.RaisePropertyChanged(nameof(ball.getYVelocity));
         }
-
-
-/*        static internal void updateBoard(IBoard board)
-        {
-            for (int i = 0; i < board.getBalls().Length; i++)
-            {
-                updatePosition(board.getBalls()[i]);
-            }
-        }*/
     }
 }

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -67,7 +68,6 @@ namespace Logic
             {
                 this.running = false;
                 threads.Clear();
-                //board.clear();
             }
         }
 

@@ -121,28 +121,5 @@ namespace LogicTests
             Assert.That(ball.x, Is.EqualTo(50.5f));
             Assert.That(ball.y, Is.EqualTo(50.5f));
         }
-
-        /*[Test]
-        public void updateBoardTest()
-        {
-            // Arrange
-            LogicAbstractAPI api = LogicAbstractAPI.CreateLogicAPI();
-            TestBall[] balls = new TestBall[3];
-            TestBall ball1 = new TestBall(50, 50, 0.5f, 0.5f);
-            TestBall ball2 = new TestBall(20, 20, -0.5f, -0.5f);
-            TestBall ball3 = new TestBall(70, 70, -0.5f, 0.5f);
-            balls[0] = ball1;
-            balls[1] = ball2;
-            balls[2] = ball3;
-            api.setBalls(balls);
-
-
-            // Act
-            Logic.Logic.updateBoard();
-
-            // Assert
-            Assert.That(ball.x, Is.EqualTo(50.5f));
-            Assert.That(ball.y, Is.EqualTo(50.5f));
-        }*/
     }
 }
