@@ -3,38 +3,36 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Data
 {
     public interface IBall
     {
-        float x { get; set; }
-        float y { get; set; }
+        Vector2 pos { get; }
+        Vector2 vel { get; }
         float getSize();
         float getXVelocity();
         float getYVelocity();
-        void setXVelocity(float xVelocity);
-        void setYVelocity(float yVelocity);
         float getMass();
-        void RaisePropertyChanged([CallerMemberName] string propertyName = null);
+        void RaisePropertyChanged(Vector2 pos);
         event PropertyChangedEventHandler PropertyChanged;
         void updatePosition();
     }
 
     internal class Ball : INotifyPropertyChanged, IBall
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<DataEventArgs>? ChangedPosition;
 
         private float size { get; set; }
         private float density { get; set; }
-        private float Xvelocity;
-        private float Yvelocity;
-        public float x { get; set; }
-        public float y { get; set; }
+        public Vector2 pos { get; private set; }
+        public Vector2 vel { get; private set; }
         public static readonly float maxVelocity = 2.0f;
 
         public float getSize() 
@@ -42,35 +40,13 @@ namespace Data
             return size; 
         }
 
-        public float getXVelocity()
-        {
-            return Xvelocity;
-        }
-
-        public float getYVelocity()
-        {
-            return Yvelocity;
-        }
-
-        public void setXVelocity(float xVelocity)
-        {
-            Xvelocity = xVelocity;
-        }
-
-        public void setYVelocity(float yVelocity)
-        {
-            Yvelocity = yVelocity;
-        }
-
         Random rnd = new Random();
         public Ball(int maxX, int maxY)
         {
             this.size = 10.0f;
             this.density = 10;
-            this.x = randomPosition(maxX);
-            this.y = randomPosition(maxY);
-            this.Xvelocity = randomVelocity();
-            this.Yvelocity = randomVelocity();
+            this.pos = new Vector2(randomPosition(maxX), randomPosition(maxY));
+            this.vel = new Vector2(randomVelocity(), randomVelocity());
         }
 
         private float randomPosition(int maxPositon) {
@@ -80,9 +56,9 @@ namespace Data
         private float randomVelocity() {
             return (float)(rnd.NextDouble() * (maxVelocity) - maxVelocity/2);
         }
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public void RaisePropertyChanged(Vector2 pos)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pos));
         }
 
         public float getMass()
@@ -92,14 +68,22 @@ namespace Data
 
         public void updatePosition()
         {
-            lock (this)
+            Thread thread = new Thread(() =>
             {
-                x += getXVelocity();
-                y += getYVelocity();
+                while (this.running)
+                {
+                    checkBorderCollisionForBall(this);
+                    //this.PropertyChanged += RelayBallUpdate; do przerobki
+                    //Thread.Sleep(10); do przerobki
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+            x += getXVelocity();
+            y += getYVelocity();
 
-                RaisePropertyChanged(nameof(x));
-                RaisePropertyChanged(nameof(y));
-            }
+            RaisePropertyChanged(x,y);
+            RaisePropertyChanged(nameof(y));
         }
     }
 }

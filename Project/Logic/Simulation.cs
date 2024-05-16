@@ -81,18 +81,7 @@ namespace Logic
             tableTask.Start();
             foreach (var ball in this.board.getBalls())
             {
-                Thread thread = new Thread(() =>
-                {
-                    while (this.running)
-                    {
-                        checkBorderCollisionForBall(ball);
-                        ball.PropertyChanged += RelayBallUpdate;
-                        Thread.Sleep(10);
-                    }
-                });
-                thread.IsBackground = true;
-                thread.Start();
-                threads.Add(thread);
+                
             }
         }
 
