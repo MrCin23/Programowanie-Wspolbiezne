@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ namespace Data
     {
         public override int sizeX { get; set; }
         public override int sizeY { get; set; }
+        /// <summary>
+        /// Decyzja Czy zmieniamy na Vector2 czy zostawiamy sizeX i sizeY
+        /// </summary>
+
+        public Vector2 size {  get; private set; }
 
         public IBall[] balls;
 
@@ -54,7 +60,7 @@ namespace Data
 
         public Board(){} //di workaround
 
-        public override void updatePosition(IBall ball) 
+/*        public override void updatePosition(IBall ball) 
         {
             foreach (IBall b in balls)
             {
@@ -67,7 +73,7 @@ namespace Data
             }
 
         }
-
+*/
 
         public override float[][] getCoordinates()
         {
@@ -75,8 +81,8 @@ namespace Data
             for (int i = 0; i < balls.Length; i++)
             {
                 float[] a = new float[2];
-                a[0] = balls[i].x;
-                a[1] = balls[i].y;
+                a[0] = balls[i].pos.X;
+                a[1] = balls[i].pos.Y;
                 coordinates[i] = a;
             }
             return coordinates;

@@ -8,5 +8,9 @@ namespace Data
 {
     internal class DataEventArgs
     {
+        public DataEventArgs(Object obj)
+        {
+            //todo
+        }
     }
 }

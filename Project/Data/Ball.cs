@@ -17,15 +17,11 @@ namespace Data
         Vector2 pos { get; }
         Vector2 vel { get; }
         float getSize();
-        float getXVelocity();
-        float getYVelocity();
         float getMass();
-        void RaisePropertyChanged(Vector2 pos);
-        event PropertyChangedEventHandler PropertyChanged;
         void updatePosition();
     }
 
-    internal class Ball : INotifyPropertyChanged, IBall
+    internal class Ball : IBall
     {
         public event EventHandler<DataEventArgs>? ChangedPosition;
 
@@ -34,6 +30,7 @@ namespace Data
         public Vector2 pos { get; private set; }
         public Vector2 vel { get; private set; }
         public static readonly float maxVelocity = 2.0f;
+        private bool running;
 
         public float getSize() 
         { 
@@ -47,6 +44,7 @@ namespace Data
             this.density = 10;
             this.pos = new Vector2(randomPosition(maxX), randomPosition(maxY));
             this.vel = new Vector2(randomVelocity(), randomVelocity());
+            this.running = true;
         }
 
         private float randomPosition(int maxPositon) {
@@ -56,14 +54,18 @@ namespace Data
         private float randomVelocity() {
             return (float)(rnd.NextDouble() * (maxVelocity) - maxVelocity/2);
         }
-        public void RaisePropertyChanged(Vector2 pos)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pos));
-        }
 
         public float getMass()
         {
             return (float)(4 / 3 * Math.PI * Math.Pow(size/2, 3)) * density; 
+        }
+
+        private void move()
+        {
+            Vector2 pos = this.pos;
+            pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
+            DataEventArgs args = new DataEventArgs(this);
+            ChangedPosition?.Invoke(this, args);
         }
 
         public void updatePosition()
@@ -72,18 +74,13 @@ namespace Data
             {
                 while (this.running)
                 {
-                    checkBorderCollisionForBall(this);
-                    //this.PropertyChanged += RelayBallUpdate; do przerobki
+                    move();
                     //Thread.Sleep(10); do przerobki
                 }
             });
             thread.IsBackground = true;
             thread.Start();
-            x += getXVelocity();
-            y += getYVelocity();
-
-            RaisePropertyChanged(x,y);
-            RaisePropertyChanged(nameof(y));
+            
         }
     }
 }
