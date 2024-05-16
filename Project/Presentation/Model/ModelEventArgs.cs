@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Model
 {
-    public class DataEventArgs
+    public class ModelEventArgs
     {
         public Vector2 vec;
-        public DataEventArgs(Vector2 vec)
+        public ModelEventArgs(Vector2 vec)
         {
             this.vec = vec;
         }

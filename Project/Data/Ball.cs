@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -15,22 +16,26 @@ namespace Data
     public interface IBall
     {
         Vector2 pos { get; }
-        Vector2 vel { get; }
+        Vector2 vel { get; set; }
         float getSize();
         float getMass();
-        void updatePosition();
+        void destroy();
+        #nullable enable
+        public event EventHandler<DataEventArgs>? ChangedPosition;
     }
 
     internal class Ball : IBall
     {
+        #nullable enable
         public event EventHandler<DataEventArgs>? ChangedPosition;
 
         private float size { get; set; }
         private float density { get; set; }
         public Vector2 pos { get; private set; }
-        public Vector2 vel { get; private set; }
+        public Vector2 vel { get; set; }
         public static readonly float maxVelocity = 2.0f;
         private bool running;
+        private Thread thread;
 
         public float getSize() 
         { 
@@ -45,6 +50,23 @@ namespace Data
             this.pos = new Vector2(randomPosition(maxX), randomPosition(maxY));
             this.vel = new Vector2(randomVelocity(), randomVelocity());
             this.running = true;
+            this.thread = new Thread(() =>
+            {
+                try
+                {
+                    while (this.running)
+                    {
+                        move();
+                        Thread.Sleep(10);
+                    }
+                }
+                catch (ThreadAbortException)
+                {
+                    Debug.WriteLine("Thread killed");
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         private float randomPosition(int maxPositon) {
@@ -64,23 +86,14 @@ namespace Data
         {
             Vector2 pos = this.pos;
             pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
-            DataEventArgs args = new DataEventArgs(this);
+            DataEventArgs args = new DataEventArgs(pos);
             ChangedPosition?.Invoke(this, args);
         }
 
-        public void updatePosition()
+        public void destroy()
         {
-            Thread thread = new Thread(() =>
-            {
-                while (this.running)
-                {
-                    move();
-                    //Thread.Sleep(10); do przerobki
-                }
-            });
-            thread.IsBackground = true;
-            thread.Start();
-            
+            this.running = false;
+            this.thread.Abort();
         }
     }
 }

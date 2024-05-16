@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Model
 {
-    public interface IBall : INotifyPropertyChanged
+    public interface IBall
     {
-        float x { get; }
-        float y { get; }
+        Vector2 pos { get; }
         float r { get; }
+        #nullable enable
+        event EventHandler<ModelEventArgs>? ChangedPosition;
     }
     public class BallChangeEventArgs : EventArgs
     {

@@ -20,7 +20,6 @@ namespace Data
         public abstract void setBalls(IBall[] balls);
         public abstract float[][] getCoordinates();
         public abstract void setBoardParameters(int x, int y, int ballsAmount);
-/*        public abstract void updatePosition(IBall ball);*/
         public abstract void clear();
     }
 }

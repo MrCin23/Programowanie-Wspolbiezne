@@ -111,6 +111,7 @@
     <Compile Include="DrawBalls.cs" />
     <Compile Include="IBall.cs" />
     <Compile Include="ModelAPI.cs" />
+    <Compile Include="ModelEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

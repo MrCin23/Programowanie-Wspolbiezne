@@ -18,17 +18,16 @@ namespace Data
     {
         public override int sizeX { get; set; }
         public override int sizeY { get; set; }
-        /// <summary>
-        /// Decyzja Czy zmieniamy na Vector2 czy zostawiamy sizeX i sizeY
-        /// </summary>
-
-        public Vector2 size {  get; private set; }
 
         public IBall[] balls;
 
         public override void clear()
         {
-            balls = new IBall[0];
+            foreach (IBall ball in balls) 
+            {
+                ball.destroy();
+            }
+            balls = [];
         }
 
         public override IBall[] getBalls()
@@ -60,29 +59,12 @@ namespace Data
 
         public Board(){} //di workaround
 
-/*        public override void updatePosition(IBall ball) 
-        {
-            foreach (IBall b in balls)
-            {
-                if (b == ball)
-                {
-                    ball.updatePosition();
-                    ball.RaisePropertyChanged(nameof(ball.x));
-                    ball.RaisePropertyChanged(nameof(ball.y));
-                }
-            }
-
-        }
-*/
-
         public override float[][] getCoordinates()
         {
             float[][] coordinates = new float[balls.Length][];
             for (int i = 0; i < balls.Length; i++)
             {
-                float[] a = new float[2];
-                a[0] = balls[i].pos.X;
-                a[1] = balls[i].pos.Y;
+                float[] a = [balls[i].pos.X, balls[i].pos.Y];
                 coordinates[i] = a;
             }
             return coordinates;

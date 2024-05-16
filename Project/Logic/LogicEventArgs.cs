@@ -5,12 +5,12 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data
+namespace Logic
 {
-    public class DataEventArgs
+    public class LogicEventArgs
     {
         public Vector2 vec;
-        public DataEventArgs(Vector2 vec)
+        public LogicEventArgs(Vector2 vec)
         {
             this.vec = vec;
         }
