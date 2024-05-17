@@ -21,7 +21,7 @@ namespace Data
         float getMass();
         void destroy();
         #nullable enable
-        public event EventHandler<DataEventArgs>? ChangedPosition;
+        event EventHandler<DataEventArgs>? ChangedPosition;
     }
 
     internal class Ball : IBall
@@ -84,8 +84,8 @@ namespace Data
 
         private void move()
         {
-            Vector2 pos = this.pos;
-            pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
+            Vector2 pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
+            this.pos = pos;
             DataEventArgs args = new DataEventArgs(pos);
             ChangedPosition?.Invoke(this, args);
         }

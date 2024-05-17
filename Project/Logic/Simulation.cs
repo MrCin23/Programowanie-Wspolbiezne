@@ -29,13 +29,13 @@ namespace Logic
             if (board == null)
             {
                 this.board = DataAbstractAPI.CreateDataAPI();
+                
             }
             else
             {
                 this.board = board;
             }
             this.running = false;
-            this.balls = board.getBalls();
         }
 
         public void setBoard(IBoard board)
@@ -160,7 +160,7 @@ namespace Logic
             }
         }
 
-        public override float[][] getCoordinates()
+        public override Vector2[] getCoordinates()
         {
             return board.getCoordinates();
         }
@@ -180,6 +180,7 @@ namespace Logic
                 this.observableData.Add(ball);
                 ball.ChangedPosition += sendUpdate;
             }
+            this.balls = board.getBalls();
         }
 
         public override void setBalls(IBall[] balls)

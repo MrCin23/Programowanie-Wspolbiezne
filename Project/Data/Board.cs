@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -54,18 +55,19 @@ namespace Data
             {
                 balls[i] = new Ball(maxX, maxY);
             }
+            Debug.WriteLine("elo");
             this.balls = balls;
         }
 
         public Board(){} //di workaround
 
-        public override float[][] getCoordinates()
+        public override Vector2[] getCoordinates()
         {
-            float[][] coordinates = new float[balls.Length][];
+            Vector2[] coordinates = new Vector2[balls.Length];
             for (int i = 0; i < balls.Length; i++)
             {
-                float[] a = [balls[i].pos.X, balls[i].pos.Y];
-                coordinates[i] = a;
+                Vector2 pos = balls[i].pos;
+                coordinates[i] = pos;
             }
             return coordinates;
         }

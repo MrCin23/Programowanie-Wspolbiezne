@@ -43,10 +43,12 @@ namespace Model
         public override void getBoardParameters(int x, int y, int ballsAmount)
         {
             simulation.getBoardParameters(x, y, ballsAmount);
+            Debug.WriteLine("Model");
             drawBalls = new DrawBalls[ballsAmount]; //todo
+            Vector2[] poss = simulation.getCoordinates();
             for (int i = 0; i < ballsAmount; i++)
             {
-                DrawBalls ball = new DrawBalls(simulation.getCoordinates()[i][0], simulation.getCoordinates()[i][1]);
+                DrawBalls ball = new DrawBalls(poss[i]);
                 drawBalls[i] = ball;
                 simulation.ChangedPosition += OnBallChanged; //send update to upper level
             }
@@ -78,8 +80,8 @@ namespace Model
         private void OnBallChanged(object sender, LogicEventArgs e)
         {
             LogicAbstractAPI api = (LogicAbstractAPI) sender;
-            IBall[] balls = (IBall[])api.getBalls();
-            foreach (IBall ball in balls)
+            Data.IBall[] balls = (Data.IBall[])api.getBalls();
+            foreach (Data.IBall ball in balls)
             {
                 Vector2 pos = ball.pos;
                 ModelEventArgs args = new ModelEventArgs(pos);
@@ -91,7 +93,7 @@ namespace Model
         {
             for (int i = 0; i < simulation.getCoordinates().Length; i++)
             {
-                Vector2 pos = new Vector2(simulation.getCoordinates()[i][0], simulation.getCoordinates()[i][1]);
+                Vector2 pos = simulation.getCoordinates()[i];
                 drawBalls[i].pos = pos;
             }
         }

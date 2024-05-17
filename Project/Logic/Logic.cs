@@ -30,7 +30,7 @@ namespace Logic
         {
             return new Simulation();
         }
-        public abstract float[][] getCoordinates();
+        public abstract Vector2[] getCoordinates();
         public abstract void setBalls(IBall[] balls);
     }
 

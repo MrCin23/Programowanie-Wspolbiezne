@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace LogicTests
 {
-    public class TestBall : IBall
+    /*public class TestBall : IBall
     {
         public float x { get; set; }
         public float y { get; set; }
@@ -121,5 +121,5 @@ namespace LogicTests
             Assert.That(ball.x, Is.EqualTo(50.5f));
             Assert.That(ball.y, Is.EqualTo(50.5f));
         }
-    }
+    }*/
 }

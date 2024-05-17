@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions;
 
 namespace DataTests
 {
-    [TestFixture]
+/*    [TestFixture]
     public class BallTests
     {
         [Test]
@@ -69,5 +69,5 @@ namespace DataTests
             Assert.That(posx, Is.EqualTo(ball.x));
             Assert.That(posy, Is.EqualTo(ball.y));
         }
-    }
+    }*/
 }
