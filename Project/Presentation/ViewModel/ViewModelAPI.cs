@@ -26,7 +26,7 @@ namespace ViewModel
         private ModelAbstractAPI api;
         public int amount;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<Model.IBall> ballsToDraw { get; } = new ObservableCollection<Model.IBall>();
         
         public ViewModel()
@@ -36,28 +36,19 @@ namespace ViewModel
             stopSimulation = new RelayCommand(stopSimulationHandler);
         }
 
-        protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
+
+
+        private void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            PropertyChanged?.Invoke(this, args);
+        }
+
+/*        public void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //Debug.WriteLine(ballsToDraw[0].x + " " + ballsToDraw[0].y);
-        }
+            //Debug.WriteLine(x + " " + y);
+        }*/
 
-        //todo
-#nullable enable
-        public event EventHandler<ModelEventArgs>? ChangedPosition;
-
-        private void OnPropertyChanged(ModelEventArgs args)
-        {
-            ChangedPosition?.Invoke(this, args);
-        }
-        private void sendUpdate(object sender, ModelEventArgs e)
-        {
-            Model.IBall ball = (Model.IBall)sender;
-            Vector2 pos = ball.pos;
-            ModelEventArgs args = new ModelEventArgs(pos);
-            OnPropertyChanged(args);
-            RaisePropertyChanged(nameof(pos));
-        }
 
         private void startSimulationHandler(object obj)
         {
@@ -67,14 +58,15 @@ namespace ViewModel
             foreach (Model.IBall b in api.getballs())
             {
                 ballsToDraw.Add(b);
-/*                Vector2 pos = b.pos;
-                ModelEventArgs args = new ModelEventArgs(pos);*/
-                b.ChangedPosition += sendUpdate;
                 b.PropertyChanged += RaisePropertyChanged;
-
             }
             api.StartSimulation();
-            RaisePropertyChanged("Circles");
+        }
+
+        public virtual void RaisePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(sender)));
+            Debug.WriteLine(ballsToDraw[0].x + " " + ballsToDraw[0].y);
         }
 
         private void getBoardParameters(int x, int y, int ballsAmount) {

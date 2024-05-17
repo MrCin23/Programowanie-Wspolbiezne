@@ -19,7 +19,7 @@ namespace Model
         #nullable enable
         event EventHandler<ModelEventArgs>? ChangedPosition;
         event PropertyChangedEventHandler? PropertyChanged;
-        void UpdateCircle(Object s, ModelEventArgs e);
+        void UpdateDrawBalls(Object s, ModelEventArgs e);
         void RaisePropertyChanged([CallerMemberName] string? propertyName = null);
     }
     public class BallChangeEventArgs : EventArgs

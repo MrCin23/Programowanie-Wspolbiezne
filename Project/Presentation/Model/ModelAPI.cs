@@ -50,7 +50,8 @@ namespace Model
             {
                 DrawBalls ball = new DrawBalls(poss[i]);
                 drawBalls[i] = ball;
-                simulation.ChangedPosition += OnBallChanged; //send update to upper level
+                simulation.ChangedPosition += OnBallChanged;
+                ball.ChangedPosition += drawBalls[i].UpdateDrawBalls!;//send update to upper level
             }
         }
 
@@ -83,9 +84,7 @@ namespace Model
             Data.IBall[] balls = (Data.IBall[])api.getBalls();
             foreach (Data.IBall ball in balls)
             {
-                Vector2 pos = ball.pos;
-                ModelEventArgs args = new ModelEventArgs(pos);
-                OnPropertyChanged(args);
+                //Vector2 pos = ball.pos;
                 UpdatePosition();
             }
         }
@@ -116,9 +115,19 @@ namespace Model
         {
             return eventObservable.Subscribe(x => observer.OnNext(x.EventArgs.Ball), ex => observer.OnError(ex), observer.OnCompleted);
         }
-        private void OnPropertyChanged(ModelEventArgs args)
+        /*        private void OnPropertyChanged(ModelEventArgs args)
+                {
+                    ChangedPosition?.Invoke(this, args);
+                }*/
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            ChangedPosition?.Invoke(this, args);
+            PropertyChanged?.Invoke(this, args);
+        }
+        private void RelayBallUpdate(object source, PropertyChangedEventArgs args)
+        {
+            this.OnPropertyChanged(args);
         }
     }
 }
