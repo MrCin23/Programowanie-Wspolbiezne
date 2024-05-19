@@ -23,14 +23,13 @@ namespace Logic
         private Thread collisionThread;
         private IBall[] balls;
         private ObservableCollection<IBall> observableData = new ObservableCollection<IBall>();
-        private object lockObj = new object();
+        public readonly object lockk = new object();
 
         public Simulation(DataAbstractAPI board = null)
         {
             if (board == null)
             {
                 this.board = DataAbstractAPI.CreateDataAPI();
-                
             }
             else
             {
@@ -84,10 +83,7 @@ namespace Logic
                 {
                     while (running)
                     {
-                        //lock (this.board.getBalls())
-                        //{
-                            lookForCollisions();
-                        //}
+                        lookForCollisions();
                         Thread.Sleep(10); //??? todo
                     }
                 }
@@ -101,35 +97,34 @@ namespace Logic
 
         private void lookForCollisions()
         {
-            //lock (this.board.getBalls())
-            lock (this.lockObj)
+            foreach (IBall ball1 in balls)
             {
-                foreach (IBall ball1 in balls)
+                foreach (IBall ball2 in balls)
                 {
-                    foreach (IBall ball2 in balls)
+                    if (ball1 == ball2)
+                    { continue; }
+                    Vector2 tmp1 = ball1.pos;
+                    Vector2 tmp2 = ball2.pos;
+                    if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2 && !ball1.flag && !ball2.flag)
                     {
-                        if (ball1 == ball2)
-                        { continue; }
-                        Vector2 tmp1 = ball1.pos;
-                        Vector2 tmp2 = ball2.pos;
-                        if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
-                        {
-                            //Debug.WriteLine("collision: " + ball1.pos.ToString() + ' ' + ball2.pos.ToString());
-                            //Debug.WriteLine("vels1: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
-                            
-                            ballCollision(ball1, ball2);
-                            //Debug.WriteLine("vels2: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
+                        //Debug.WriteLine("collision: " + ball1.pos.ToString() + ' ' + ball2.pos.ToString());
+                        //Debug.WriteLine("vels1: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
 
-                        }
+                        ballCollision(ball1, ball2);
+                        //Debug.WriteLine("vels2: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
+
                     }
-                    checkBorderCollisionForBall(ball1);
                 }
+                checkBorderCollisionForBall(ball1);
+            }
+            foreach (IBall ball in balls)
+            {
+                ball.flag = false;
             }
         }
 
         private void ballCollision(IBall ball1, IBall ball2)
         {
-
             // Oblicz wektor normalny
             float dx = ball2.pos.X - ball1.pos.X;
             float dy = ball2.pos.Y - ball1.pos.Y;
@@ -155,15 +150,14 @@ namespace Logic
             // Nowe prędkości całkowite dla każdej kuli
             Vector2 vel1 = new Vector2(u1n * n_x + v1t * t_x, u1n * n_y + v1t * t_y);
             Vector2 vel2 = new Vector2(u2n * n_x + v2t * t_x, u2n * n_y + v2t * t_y);
-
-            lock(lockObj)
+            lock (lockk)
             {
+                ball1.flag = true;
+                ball2.flag = true;
                 ball1.vel = vel1;
                 ball2.vel = vel2;
-                Debug.WriteLine(ball1.vel.ToString() + " " + ball2.vel.ToString());
+                //Debug.WriteLine(ball1.vel.ToString() + " " + ball2.vel.ToString());
             }
-
-
         }
 
         public void checkBorderCollisionForBall(IBall ball)
