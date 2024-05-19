@@ -101,6 +101,7 @@ namespace Logic
             {
                 lock(lockk)
                 {
+                    checkBorderCollisionForBall(ball1);
                     foreach (IBall ball2 in balls)
                     {
                         if (ball1 == ball2)
@@ -117,10 +118,8 @@ namespace Logic
 
                         }
                     }
-                    checkBorderCollisionForBall(ball1);
                 }
             }
-
         }
 
         private void ballCollision(IBall ball1, IBall ball2)
@@ -154,8 +153,6 @@ namespace Logic
             {
                 ball1.vel = vel1;
                 ball2.vel = vel2;
-                ball1.update();
-                ball2.update();
             }
         }
 

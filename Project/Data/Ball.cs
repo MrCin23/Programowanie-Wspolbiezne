@@ -22,7 +22,6 @@ namespace Data
         void destroy();
         #nullable enable
         event EventHandler<DataEventArgs>? ChangedPosition;
-        void update();
     }
 
     internal class Ball : IBall
@@ -33,10 +32,7 @@ namespace Data
         private float size { get; set; }
         private float density { get; set; }
         public Vector2 pos { get; private set; }
-        public Vector2 vel { get; set; }
-
-        public static object lockObj = new object();
-
+        private Vector2 _vel { get; set; }
         public static readonly float maxVelocity = 2.0f;
         private bool running;
         private Thread thread;
@@ -98,9 +94,18 @@ namespace Data
             this.running = false;
             this.thread.Abort();
         }
-        public void update()
+
+        public Vector2 vel
         {
-            this.move();
+            get { return _vel; }
+            set
+            {
+                if (_vel != value)
+                {
+                    _vel = value;
+                    move();
+                }
+            }
         }
     }
 }

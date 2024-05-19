@@ -1,9 +1,34 @@
 ﻿using Data;
 using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions;
+using System.Numerics;
 
 namespace DataTests
 {
-/*    [TestFixture]
+    class testball : IBall
+    {
+        public Vector2 pos { get; internal set; }
+
+        public Vector2 vel { get; set; }
+
+        public event EventHandler<DataEventArgs>? ChangedPosition;
+
+        public void destroy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float getMass()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float getSize()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [TestFixture]
     public class BallTests
     {
         [Test]
@@ -32,10 +57,11 @@ namespace DataTests
 
             // Act
             IBall ball = board.getBalls()[0];
-            ball.setXVelocity(xVelocity);
+            Vector2 vel = new Vector2(xVelocity,0);
+            ball.vel = vel;
 
             // Assert
-            Assert.That(xVelocity, Is.EqualTo(ball.getXVelocity()));
+            Assert.That(xVelocity, Is.EqualTo(ball.vel.X));
         }
 
         [Test]
@@ -48,26 +74,12 @@ namespace DataTests
 
             // Act
             IBall ball = board.getBalls()[0];
-            ball.setYVelocity(yVelocity);
+            Vector2 vel = new Vector2(0, yVelocity);
+            ball.vel = vel;
 
             // Assert
-            Assert.That(yVelocity, Is.EqualTo(ball.getYVelocity()));
+            Assert.That(yVelocity, Is.EqualTo(ball.vel.Y));
         }
 
-        [Test]
-        public void positionTest()
-        {
-            var board = DataAbstractAPI.CreateDataAPI();
-            board.setBoardParameters(100, 100, 1);
-            float posx = 50;
-            float posy = 50;
-
-            IBall ball = board.getBalls()[0];
-            ball.x = posx;
-            ball.y = posy;
-
-            Assert.That(posx, Is.EqualTo(ball.x));
-            Assert.That(posy, Is.EqualTo(ball.y));
-        }
-    }*/
+    }
 }
