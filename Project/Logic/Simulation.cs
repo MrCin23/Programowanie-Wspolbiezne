@@ -160,7 +160,7 @@ namespace Logic
             {
                 ball1.vel = vel1;
                 ball2.vel = vel2;
-                //Debug.WriteLine(ball1.vel.ToString() + " " + ball2.vel.ToString());
+                Debug.WriteLine(ball1.vel.ToString() + " " + ball2.vel.ToString());
             }
 
 

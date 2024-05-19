@@ -88,11 +88,11 @@ namespace Data
 
         private void move()
         {
-            lock (this.lockObj)
-            {
+            //lock (this.lockObj)
+            //{
                 //Vector2 pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
                 this.pos += vel;
-            }
+            //}
             DataEventArgs args = new DataEventArgs(pos);
             ChangedPosition?.Invoke(this, args);
         }
