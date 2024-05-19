@@ -67,7 +67,7 @@ namespace Logic
             if(running)
             {
                 this.running = false;
-                //this.collisionThread.Abort();
+                this.collisionThread.Interrupt();
                 foreach(IBall b in balls)
                 {
                     b.destroy();
@@ -77,46 +77,39 @@ namespace Logic
 
         private void mainLoop()
         {
-            Thread tableTask = new Thread(() =>
+            collisionThread = new Thread(() =>
             {
                 try
                 {
                     while (running)
                     {
                         lookForCollisions();
-                        Thread.Sleep(10); //??? todo
+                        Thread.Sleep(5);
                     }
                 }
-                catch (ThreadAbortException) 
+                catch (ThreadInterruptedException) 
                 {
                     Debug.WriteLine("Thread killed");
                 }
             });
-            tableTask.Start();
+            collisionThread.IsBackground = true;
+            collisionThread.Start();
         }
 
         private void lookForCollisions()
         {
             foreach (IBall ball1 in balls)
             {
-                lock(lockk)
+                checkBorderCollisionForBall(ball1);
+                foreach (IBall ball2 in balls)
                 {
-                    checkBorderCollisionForBall(ball1);
-                    foreach (IBall ball2 in balls)
+                    if (ball1 == ball2)
+                    { continue; }
+                    Vector2 tmp1 = ball1.pos;
+                    Vector2 tmp2 = ball2.pos;
+                    if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
                     {
-                        if (ball1 == ball2)
-                        { continue; }
-                        Vector2 tmp1 = ball1.pos;
-                        Vector2 tmp2 = ball2.pos;
-                        if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
-                        {
-                            //Debug.WriteLine("collision: " + ball1.pos.ToString() + ' ' + ball2.pos.ToString());
-                            //Debug.WriteLine("vels1: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
-
-                            ballCollision(ball1, ball2);
-                            //Debug.WriteLine("vels2: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
-
-                        }
+                        ballCollision(ball1, ball2);
                     }
                 }
             }

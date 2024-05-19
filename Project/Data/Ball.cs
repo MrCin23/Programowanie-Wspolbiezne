@@ -60,7 +60,7 @@ namespace Data
                         Thread.Sleep(10);
                     }
                 }
-                catch (ThreadAbortException)
+                catch (ThreadInterruptedException)
                 {
                     Debug.WriteLine("Thread killed");
                 }
@@ -70,7 +70,7 @@ namespace Data
         }
 
         private float randomPosition(int maxPositon) {
-            return (float)rnd.NextDouble() * (maxPositon - this.size);
+            return (float)rnd.NextDouble() * (maxPositon - 2*this.size);
         }
 
         private float randomVelocity() {
@@ -92,7 +92,7 @@ namespace Data
         public void destroy()
         {
             this.running = false;
-            this.thread.Abort();
+            this.thread.Interrupt();
         }
 
         public Vector2 vel
