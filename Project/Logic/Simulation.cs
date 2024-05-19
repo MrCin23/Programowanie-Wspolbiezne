@@ -83,7 +83,7 @@ namespace Logic
                 {
                     while (running)
                     {
-                        lock (this.board)
+                        lock (this.board.getBalls())
                         {
                             lookForCollisions();
                         }
@@ -108,7 +108,10 @@ namespace Logic
                     { continue; }
                     if (Math.Sqrt((ball1.pos.X - ball2.pos.X) * (ball1.pos.X - ball2.pos.X) + (ball1.pos.Y - ball2.pos.Y) * (ball1.pos.Y - ball2.pos.Y)) <= ball1.getSize()/2 + ball2.getSize()/2)
                     {
+                        //Debug.WriteLine("collision: " + ball1.pos.ToString() + ' ' + ball2.pos.ToString());
+                        //Debug.WriteLine("vels1: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
                         ballCollision(ball1, ball2);
+                        //Debug.WriteLine("vels2: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
                     }
                 }
                 checkBorderCollisionForBall(ball1);

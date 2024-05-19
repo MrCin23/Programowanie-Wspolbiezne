@@ -33,6 +33,7 @@ namespace Data
         private float density { get; set; }
         public Vector2 pos { get; private set; }
         public Vector2 vel { get; set; }
+
         public static readonly float maxVelocity = 2.0f;
         private bool running;
         private Thread thread;
@@ -84,8 +85,11 @@ namespace Data
 
         private void move()
         {
-            Vector2 pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
-            this.pos = pos;
+            lock (this)
+            {
+                Vector2 pos = new Vector2(this.pos.X + this.vel.X, this.pos.Y + this.vel.Y);
+                this.pos = pos;
+            }
             DataEventArgs args = new DataEventArgs(pos);
             ChangedPosition?.Invoke(this, args);
         }

@@ -43,15 +43,13 @@ namespace Model
         public override void getBoardParameters(int x, int y, int ballsAmount)
         {
             simulation.getBoardParameters(x, y, ballsAmount);
-            Debug.WriteLine("Model");
-            drawBalls = new DrawBalls[ballsAmount]; //todo
+            drawBalls = new DrawBalls[ballsAmount];
             Vector2[] poss = simulation.getCoordinates();
             for (int i = 0; i < ballsAmount; i++)
             {
                 DrawBalls ball = new DrawBalls(poss[i]);
                 drawBalls[i] = ball;
                 simulation.ChangedPosition += OnBallChanged;
-                ball.ChangedPosition += drawBalls[i].UpdateDrawBalls!;//send update to upper level
             }
         }
 
@@ -80,11 +78,10 @@ namespace Model
 
         private void OnBallChanged(object sender, LogicEventArgs e)
         {
-            LogicAbstractAPI api = (LogicAbstractAPI) sender;
-            Data.IBall[] balls = (Data.IBall[])api.getBalls();
+            LogicAbstractAPI api = (LogicAbstractAPI)sender;
+            Data.IBall[] balls = api.getBalls();
             foreach (Data.IBall ball in balls)
             {
-                //Vector2 pos = ball.pos;
                 UpdatePosition();
             }
         }
@@ -93,10 +90,10 @@ namespace Model
             for (int i = 0; i < simulation.getCoordinates().Length; i++)
             {
                 Vector2 pos = simulation.getCoordinates()[i];
-                drawBalls[i].pos = pos;
+                drawBalls[i].x = pos.X;
+                drawBalls[i].y = pos.Y;
             }
         }
-
         public override void StartSimulation()
         {
             //button
@@ -114,20 +111,6 @@ namespace Model
         public override IDisposable Subscribe(IObserver<IBall> observer)
         {
             return eventObservable.Subscribe(x => observer.OnNext(x.EventArgs.Ball), ex => observer.OnError(ex), observer.OnCompleted);
-        }
-        /*        private void OnPropertyChanged(ModelEventArgs args)
-                {
-                    ChangedPosition?.Invoke(this, args);
-                }*/
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            PropertyChanged?.Invoke(this, args);
-        }
-        private void RelayBallUpdate(object source, PropertyChangedEventArgs args)
-        {
-            this.OnPropertyChanged(args);
         }
     }
 }

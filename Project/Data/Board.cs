@@ -55,7 +55,6 @@ namespace Data
             {
                 balls[i] = new Ball(maxX, maxY);
             }
-            Debug.WriteLine("elo");
             this.balls = balls;
         }
 

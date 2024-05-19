@@ -19,14 +19,13 @@ using System.Windows.Media.Media3D;
 namespace ViewModel
 {
     //this class has to stay public, so that MainWindow.xaml can access it
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel
     {
         public ICommand startSimulation { get; set; }
         public ICommand stopSimulation { get; set; }
         private ModelAbstractAPI api;
         public int amount;
 
-        public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<Model.IBall> ballsToDraw { get; } = new ObservableCollection<Model.IBall>();
         
         public ViewModel()
@@ -36,20 +35,6 @@ namespace ViewModel
             stopSimulation = new RelayCommand(stopSimulationHandler);
         }
 
-
-
-        private void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            PropertyChanged?.Invoke(this, args);
-        }
-
-/*        public void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //Debug.WriteLine(x + " " + y);
-        }*/
-
-
         private void startSimulationHandler(object obj)
         {
             api = ModelAbstractAPI.CreateModelAPI();
@@ -58,15 +43,8 @@ namespace ViewModel
             foreach (Model.IBall b in api.getballs())
             {
                 ballsToDraw.Add(b);
-                b.PropertyChanged += RaisePropertyChanged;
             }
             api.StartSimulation();
-        }
-
-        public virtual void RaisePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(sender)));
-            Debug.WriteLine(ballsToDraw[0].x + " " + ballsToDraw[0].y);
         }
 
         private void getBoardParameters(int x, int y, int ballsAmount) {

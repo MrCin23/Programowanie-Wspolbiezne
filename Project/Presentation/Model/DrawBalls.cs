@@ -75,7 +75,6 @@ namespace Model
         public void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //Debug.WriteLine(x + " " + y);
         }
     }
 }
