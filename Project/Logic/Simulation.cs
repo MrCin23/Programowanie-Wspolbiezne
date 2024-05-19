@@ -99,28 +99,28 @@ namespace Logic
         {
             foreach (IBall ball1 in balls)
             {
-                foreach (IBall ball2 in balls)
+                lock(lockk)
                 {
-                    if (ball1 == ball2)
-                    { continue; }
-                    Vector2 tmp1 = ball1.pos;
-                    Vector2 tmp2 = ball2.pos;
-                    if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2 && !ball1.flag && !ball2.flag)
+                    foreach (IBall ball2 in balls)
                     {
-                        //Debug.WriteLine("collision: " + ball1.pos.ToString() + ' ' + ball2.pos.ToString());
-                        //Debug.WriteLine("vels1: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
+                        if (ball1 == ball2)
+                        { continue; }
+                        Vector2 tmp1 = ball1.pos;
+                        Vector2 tmp2 = ball2.pos;
+                        if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
+                        {
+                            //Debug.WriteLine("collision: " + ball1.pos.ToString() + ' ' + ball2.pos.ToString());
+                            //Debug.WriteLine("vels1: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
 
-                        ballCollision(ball1, ball2);
-                        //Debug.WriteLine("vels2: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
+                            ballCollision(ball1, ball2);
+                            //Debug.WriteLine("vels2: " + ball1.vel.ToString() + ' ' + ball2.vel.ToString());
 
+                        }
                     }
+                    checkBorderCollisionForBall(ball1);
                 }
-                checkBorderCollisionForBall(ball1);
             }
-            foreach (IBall ball in balls)
-            {
-                ball.flag = false;
-            }
+
         }
 
         private void ballCollision(IBall ball1, IBall ball2)
@@ -152,25 +152,27 @@ namespace Logic
             Vector2 vel2 = new Vector2(u2n * n_x + v2t * t_x, u2n * n_y + v2t * t_y);
             lock (lockk)
             {
-                ball1.flag = true;
-                ball2.flag = true;
                 ball1.vel = vel1;
                 ball2.vel = vel2;
-                //Debug.WriteLine(ball1.vel.ToString() + " " + ball2.vel.ToString());
+                ball1.update();
+                ball2.update();
             }
         }
 
         public void checkBorderCollisionForBall(IBall ball)
         {
-            if (ball.pos.X + ball.getSize() >= board.sizeX || ball.pos.X + ball.vel.X + ball.getSize() >= board.sizeX ||
-                ball.pos.X <= 0 || ball.pos.X + ball.vel.X <= 0)
+            lock(lockk)
             {
-                Logic.changeXdirection(ball);
-            }
-            if (ball.pos.Y + ball.getSize() >= board.sizeY || ball.pos.Y + ball.vel.Y + ball.getSize() >= board.sizeY ||
-                ball.pos.Y <= 0 || ball.pos.Y + ball.vel.Y <= 0)
-            {
-                Logic.changeYdirection(ball);
+                if (ball.pos.X + ball.getSize() >= board.sizeX || ball.pos.X + ball.vel.X + ball.getSize() >= board.sizeX ||
+                    ball.pos.X <= 0 || ball.pos.X + ball.vel.X <= 0)
+                {
+                    Logic.changeXdirection(ball);
+                }
+                if (ball.pos.Y + ball.getSize() >= board.sizeY || ball.pos.Y + ball.vel.Y + ball.getSize() >= board.sizeY ||
+                    ball.pos.Y <= 0 || ball.pos.Y + ball.vel.Y <= 0)
+                {
+                    Logic.changeYdirection(ball);
+                }
             }
         }
 

@@ -20,9 +20,9 @@ namespace Data
         float getSize();
         float getMass();
         void destroy();
-        bool flag { get; set; }
         #nullable enable
         event EventHandler<DataEventArgs>? ChangedPosition;
+        void update();
     }
 
     internal class Ball : IBall
@@ -34,7 +34,6 @@ namespace Data
         private float density { get; set; }
         public Vector2 pos { get; private set; }
         public Vector2 vel { get; set; }
-        public bool flag { get; set; }
 
         public static object lockObj = new object();
 
@@ -98,6 +97,10 @@ namespace Data
         {
             this.running = false;
             this.thread.Abort();
+        }
+        public void update()
+        {
+            this.move();
         }
     }
 }
