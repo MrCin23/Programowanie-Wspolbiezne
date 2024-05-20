@@ -100,16 +100,19 @@ namespace Logic
         {
             foreach (IBall ball1 in balls)
             {
-                checkBorderCollisionForBall(ball1);
-                foreach (IBall ball2 in balls)
+                lock(lockk)
                 {
-                    if (ball1 == ball2)
-                    { continue; }
-                    Vector2 tmp1 = ball1.pos;
-                    Vector2 tmp2 = ball2.pos;
-                    if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
+                    checkBorderCollisionForBall(ball1);
+                    foreach (IBall ball2 in balls)
                     {
-                        ballCollision(ball1, ball2);
+                        if (ball1 == ball2)
+                        { continue; }
+                        Vector2 tmp1 = ball1.pos;
+                        Vector2 tmp2 = ball2.pos;
+                        if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
+                        {
+                            ballCollision(ball1, ball2);
+                        }
                     }
                 }
             }
