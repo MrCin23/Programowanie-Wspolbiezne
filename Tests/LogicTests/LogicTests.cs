@@ -24,7 +24,7 @@ namespace LogicTests
         {
             Vector2 pos = new Vector2(x, y);
             Vector2 vel = new Vector2(Xvelocity, Yvelocity);
-            this.Pos = Pos; this.vel = vel;
+            this.Pos = pos; this.vel = vel;
         }
 
         public float getSize()
