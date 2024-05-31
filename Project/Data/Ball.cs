@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Data
 {
@@ -24,7 +25,7 @@ namespace Data
         event EventHandler<DataEventArgs>? ChangedPosition;
     }
 
-    internal class Ball : IBall
+    internal class Ball : XmlSerializationWriter, IBall
     {
         #nullable enable
         public event EventHandler<DataEventArgs>? ChangedPosition;
@@ -36,6 +37,7 @@ namespace Data
         public static readonly float maxVelocity = 2.0f;
         private bool running;
         private Thread thread;
+        Stopwatch stopwatch;
 
         public float getSize() 
         { 
@@ -50,13 +52,17 @@ namespace Data
             this.pos = new Vector2(randomPosition(maxX), randomPosition(maxY));
             this.vel = new Vector2(randomVelocity(), randomVelocity());
             this.running = true;
+            stopwatch = new Stopwatch();
             this.thread = new Thread(() =>
             {
                 try
                 {
                     while (this.running)
                     {
-                        move();
+                        float time = stopwatch.ElapsedMilliseconds;
+                        stopwatch.Restart();
+                        stopwatch.Start();
+                        move(time);
                         Thread.Sleep(10);
                     }
                 }
@@ -82,9 +88,9 @@ namespace Data
             return (float)(4 / 3 * Math.PI * Math.Pow(size/2, 3)) * density; 
         }
 
-        private void move()
+        private void move(float time)
         {
-            this.pos += vel;
+            this.pos += time * vel;
             DataEventArgs args = new DataEventArgs(pos);
             ChangedPosition?.Invoke(this, args);
         }
@@ -95,6 +101,11 @@ namespace Data
             this.thread.Interrupt();
         }
 
+        protected override void InitCallbacks()
+        {
+            throw new NotImplementedException();
+        }
+
         public Vector2 vel
         {
             get { return _vel; }
@@ -103,7 +114,7 @@ namespace Data
                 if (_vel != value)
                 {
                     _vel = value;
-                    move();
+                    move(10.0f);
                 }
             }
         }

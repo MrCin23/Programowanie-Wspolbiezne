@@ -1,18 +1,10 @@
 ﻿using Data;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
+using System.IO;
 using System.Numerics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Logic
 {
@@ -24,6 +16,7 @@ namespace Logic
         private IBall[] balls;
         private ObservableCollection<IBall> observableData = new ObservableCollection<IBall>();
         public readonly object lockk = new object();
+        private string filename = "D:\\Studia\\Semestr 4\\Programowanie współbieżne\\Wspolbiegi\\Project\\Logic\\diagnostic.log";
 
         public Simulation(DataAbstractAPI board = null)
         {
@@ -98,6 +91,16 @@ namespace Logic
 
         private void lookForCollisions()
         {
+            lock(lockk)
+            {
+                //Serializacja do zrobienia!!!!!
+                string info = "Board diagnostic info:\n" + this.board.sizeX + " " + this.board.sizeY + "\nBalls diagnostic info:\n";
+                foreach(IBall ball in balls)
+                {
+                    info += ball.pos.ToString() + " " + ball.vel.ToString() + "\n";
+                }
+                File.AppendAllText(filename, info);
+            }
             foreach (IBall ball1 in balls)
             {
                 lock(lockk)
