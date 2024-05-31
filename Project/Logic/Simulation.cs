@@ -16,8 +16,7 @@ namespace Logic
         private IBall[] balls;
         private ObservableCollection<IBall> observableData = new ObservableCollection<IBall>();
         public readonly object lockk = new object();
-        private string filename = "D:\\Studia\\Semestr 4\\Programowanie współbieżne\\Wspolbiegi\\Project\\Logic\\diagnostic.log";
-
+        
         public Simulation(DataAbstractAPI board = null)
         {
             if (board == null)
@@ -91,16 +90,6 @@ namespace Logic
 
         private void lookForCollisions()
         {
-            lock(lockk)
-            {
-                //Serializacja do zrobienia!!!!!
-                string info = "Board diagnostic info:\n" + this.board.sizeX + " " + this.board.sizeY + "\nBalls diagnostic info:\n";
-                foreach(IBall ball in balls)
-                {
-                    info += ball.pos.ToString() + " " + ball.vel.ToString() + "\n";
-                }
-                File.AppendAllText(filename, info);
-            }
             foreach (IBall ball1 in balls)
             {
                 lock(lockk)
@@ -110,8 +99,8 @@ namespace Logic
                     {
                         if (ball1 == ball2)
                         { continue; }
-                        Vector2 tmp1 = ball1.pos;
-                        Vector2 tmp2 = ball2.pos;
+                        Vector2 tmp1 = ball1.Pos;
+                        Vector2 tmp2 = ball2.Pos;
                         if (Math.Sqrt((tmp1.X - tmp2.X) * (tmp1.X - tmp2.X) + (tmp1.Y - tmp2.Y) * (tmp1.Y - tmp2.Y)) <= ball1.getSize() / 2 + ball2.getSize() / 2)
                         {
                             ballCollision(ball1, ball2);
@@ -124,8 +113,8 @@ namespace Logic
         private void ballCollision(IBall ball1, IBall ball2)
         {
             // Oblicz wektor normalny
-            float dx = ball2.pos.X - ball1.pos.X;
-            float dy = ball2.pos.Y - ball1.pos.Y;
+            float dx = ball2.Pos.X - ball1.Pos.X;
+            float dy = ball2.Pos.Y - ball1.Pos.Y;
             float distance = (float)Math.Sqrt(dx * dx + dy * dy); // odległość między kulami
             float n_x = dx / distance; // składowa x wektora normalnego
             float n_y = dy / distance; // składowa y wektora normalnego
@@ -159,13 +148,13 @@ namespace Logic
         {
             lock(lockk)
             {
-                if (ball.pos.X + ball.getSize() >= board.sizeX || ball.pos.X + ball.vel.X + ball.getSize() >= board.sizeX ||
-                    ball.pos.X <= 0 || ball.pos.X + ball.vel.X <= 0)
+                if (ball.Pos.X + ball.getSize() >= board.sizeX || ball.Pos.X + ball.vel.X + ball.getSize() >= board.sizeX ||
+                    ball.Pos.X <= 0 || ball.Pos.X + ball.vel.X <= 0)
                 {
                     Logic.changeXdirection(ball);
                 }
-                if (ball.pos.Y + ball.getSize() >= board.sizeY || ball.pos.Y + ball.vel.Y + ball.getSize() >= board.sizeY ||
-                    ball.pos.Y <= 0 || ball.pos.Y + ball.vel.Y <= 0)
+                if (ball.Pos.Y + ball.getSize() >= board.sizeY || ball.Pos.Y + ball.vel.Y + ball.getSize() >= board.sizeY ||
+                    ball.Pos.Y <= 0 || ball.Pos.Y + ball.vel.Y <= 0)
                 {
                     Logic.changeYdirection(ball);
                 }
@@ -203,7 +192,7 @@ namespace Logic
         private void sendUpdate(object sender, DataEventArgs e)
         {
             IBall ball  = (IBall)sender;
-            Vector2 pos = ball.pos;
+            Vector2 pos = ball.Pos;
             LogicEventArgs args = new LogicEventArgs(pos);
             OnPropertyChanged(args);
         }

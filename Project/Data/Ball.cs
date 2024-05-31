@@ -10,13 +10,15 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Data
 {
     public interface IBall
     {
-        Vector2 pos { get; }
+        Vector2 Pos { get; }
         Vector2 vel { get; set; }
         float getSize();
         float getMass();
@@ -25,19 +27,28 @@ namespace Data
         event EventHandler<DataEventArgs>? ChangedPosition;
     }
 
-    internal class Ball : XmlSerializationWriter, IBall
+    internal class Ball : IXmlSerializable, IBall
     {
         #nullable enable
         public event EventHandler<DataEventArgs>? ChangedPosition;
 
         private float size { get; set; }
         private float density { get; set; }
+
         public Vector2 pos { get; private set; }
         private Vector2 _vel { get; set; }
         public static readonly float maxVelocity = 2.0f;
         private bool running;
         private Thread thread;
         Stopwatch stopwatch;
+        private DataLogger logger;
+
+
+        public Vector2 Pos
+        {
+            get => pos;
+        }
+        public Ball(){}
 
         public float getSize() 
         { 
@@ -45,8 +56,9 @@ namespace Data
         }
 
         Random rnd = new Random();
-        public Ball(int maxX, int maxY)
+        public Ball(int maxX, int maxY, DataLogger logger)
         {
+            this.logger = logger;
             this.size = 10.0f;
             this.density = 10;
             this.pos = new Vector2(randomPosition(maxX), randomPosition(maxY));
@@ -63,6 +75,7 @@ namespace Data
                         stopwatch.Restart();
                         stopwatch.Start();
                         move(time);
+                        logger.addToQueue(this);
                         Thread.Sleep(10);
                     }
                 }
@@ -101,10 +114,7 @@ namespace Data
             this.thread.Interrupt();
         }
 
-        protected override void InitCallbacks()
-        {
-            throw new NotImplementedException();
-        }
+        public XmlSchema GetSchema() => null;
 
         public Vector2 vel
         {
@@ -117,6 +127,32 @@ namespace Data
                     move(10.0f);
                 }
             }
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            reader.MoveToContent();
+            reader.ReadStartElement();
+
+            float posX = float.Parse(reader.GetAttribute("PosX"));
+            float posY = float.Parse(reader.GetAttribute("PosY"));
+
+            float velX = float.Parse(reader.GetAttribute("VelX"));
+            float velY = float.Parse(reader.GetAttribute("VelY"));
+            
+            reader.ReadEndElement();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("Ball");
+
+            writer.WriteAttributeString("PosX", pos.X.ToString());
+            writer.WriteAttributeString("PosY", pos.Y.ToString());
+            writer.WriteAttributeString("VelX", vel.X.ToString());
+            writer.WriteAttributeString("VelY", vel.Y.ToString());
+
+            writer.WriteEndElement();
         }
     }
 }

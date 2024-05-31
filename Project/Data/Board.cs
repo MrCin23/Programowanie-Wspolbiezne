@@ -17,6 +17,7 @@ namespace Data
 
     internal class Board : DataAbstractAPI
     {
+        DataLogger logger;
         public override int sizeX { get; set; }
         public override int sizeY { get; set; }
 
@@ -53,19 +54,22 @@ namespace Data
             IBall[] balls = new IBall[amount];
             for (int i = 0; i < balls.Length; i++)
             {
-                balls[i] = new Ball(maxX, maxY);
+                balls[i] = new Ball(maxX, maxY, logger);
             }
             this.balls = balls;
         }
 
-        public Board(){} //di workaround
+        public Board()
+        {
+            logger = new DataLogger();
+        } //di workaround
 
         public override Vector2[] getCoordinates()
         {
             Vector2[] coordinates = new Vector2[balls.Length];
             for (int i = 0; i < balls.Length; i++)
             {
-                Vector2 pos = balls[i].pos;
+                Vector2 pos = balls[i].Pos;
                 coordinates[i] = pos;
             }
             return coordinates;
