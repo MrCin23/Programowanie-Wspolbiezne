@@ -3,11 +3,17 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 
+[assembly: InternalsVisibleTo("Program.XmlSerializers")]
 namespace Data
 {
     internal class DataLogger
@@ -21,7 +27,6 @@ namespace Data
         {
             string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.FullName;
             filename = Path.Combine(path, "Logger.xml");
-            //File.Create(filename).Close();
             ballsQueue = new ConcurrentQueue<IBall>();
             this.isRunning = true;
             Task.Run(writeDataToLogger);
@@ -33,6 +38,8 @@ namespace Data
             StateChange.Cancel();
         }
 
+
+
         public async void writeDataToLogger()
         {
             while (this.isRunning)
@@ -41,13 +48,11 @@ namespace Data
                 {
                     while (ballsQueue.TryDequeue(out IBall ball))
                     {
-                        using (var writer = new StreamWriter(filename, true))
+                        using (StreamWriter streamWriter = new StreamWriter(filename, true))
+                        using (XmlWriter writer = XmlWriter.Create(streamWriter, new XmlWriterSettings() { Indent = true, OmitXmlDeclaration = true }))
                         {
-                            if (ball is Ball internalBall)
-                            {
-                                XmlSerializer xmlSer = new XmlSerializer(typeof(Ball));
-                                xmlSer.Serialize(writer, internalBall);
-                            }
+                            DataContractSerializer xmlSer = new DataContractSerializer(typeof(Ball));
+                            xmlSer.WriteObject(writer, ball);
                         }
                         await Task.Delay(Timeout.Infinite, StateChange.Token).ContinueWith(_ => { });
                     }

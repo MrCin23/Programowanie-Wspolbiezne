@@ -6,7 +6,7 @@ namespace DataTests
 {
     class testball : IBall
     {
-        public Vector2 pos { get; internal set; }
+        public Vector2 Pos { get; internal set; }
 
         public Vector2 vel { get; set; }
 

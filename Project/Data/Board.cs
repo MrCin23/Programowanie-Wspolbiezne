@@ -54,7 +54,7 @@ namespace Data
             IBall[] balls = new IBall[amount];
             for (int i = 0; i < balls.Length; i++)
             {
-                balls[i] = new Ball(maxX, maxY, logger);
+                balls[i] = new Ball(i, maxX, maxY, logger);
             }
             this.balls = balls;
         }
