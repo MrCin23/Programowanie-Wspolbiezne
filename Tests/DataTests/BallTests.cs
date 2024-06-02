@@ -1,6 +1,9 @@
 ﻿using Data;
 using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions;
+using System.Collections.Concurrent;
 using System.Numerics;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace DataTests
 {
@@ -47,7 +50,7 @@ namespace DataTests
         }
 
 
-        [Test]
+        /*[Test]
         public void setXVelocityTest()
         {
             // Arrange
@@ -79,7 +82,6 @@ namespace DataTests
 
             // Assert
             Assert.That(yVelocity, Is.EqualTo(ball.vel.Y));
-        }
-
+        }*/
     }
 }

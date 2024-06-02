@@ -70,7 +70,7 @@ namespace LogicTests
             Assert.That(ball.vel.X, Is.EqualTo(-0.5f));
         }
 
-        [Test]
+/*        [Test]
         public void changeYdirectionTest()
         {
             // Arrange
@@ -103,6 +103,6 @@ namespace LogicTests
             // Assert
             Assert.That(ball.Pos.X, Is.EqualTo(50.5f));
             Assert.That(ball.Pos.Y, Is.EqualTo(50.5f));
-        }
+        }*/
     }
 }

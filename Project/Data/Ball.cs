@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
@@ -82,7 +83,12 @@ namespace Data
                         stopwatch.Start();
                         move(time);
                         logger.addToQueue(this);
-                        Thread.Sleep(10);
+                        int timeToSleep = (int)Math.Ceiling(Math.Sqrt(Math.Pow(this.vel.X * 100, 2) + Math.Pow(this.vel.Y * 100, 2)));
+                        if (timeToSleep < 10)
+                        {
+                            timeToSleep = 10;
+                        }
+                        Thread.Sleep(timeToSleep);
                     }
                 }
                 catch (ThreadInterruptedException)

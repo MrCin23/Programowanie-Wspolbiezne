@@ -59,10 +59,22 @@ namespace Data
             this.balls = balls;
         }
 
-        public Board()
+        public override void stopLogger()
         {
-            logger = new DataLogger();
-        } //di workaround
+            logger.stopRunning();
+        }
+
+        public Board(DataLogger logger = null)
+        {
+            if (logger == null)
+            {
+                this.logger = new DataLogger();
+            }
+            else
+            {
+                this.logger = logger;
+            }
+        }
 
         public override Vector2[] getCoordinates()
         {

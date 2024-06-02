@@ -21,15 +21,21 @@ namespace Data
         private ConcurrentQueue<IBall> ballsQueue;
         private string filename;
         private CancellationTokenSource StateChange = new CancellationTokenSource();
-        bool isRunning;
+        private bool isRunning;
 
-        public DataLogger()
+        public DataLogger(string filename = "Logger.xml")
         {
             string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.FullName;
-            filename = Path.Combine(path, "Logger.xml");
+            this.filename = Path.Combine(path, filename);
+            File.Create(this.filename).Close();
             ballsQueue = new ConcurrentQueue<IBall>();
             this.isRunning = true;
             Task.Run(writeDataToLogger);
+        }
+
+        public void stopRunning()
+        {
+            isRunning = false;
         }
 
         public void addToQueue(IBall ball)
@@ -38,27 +44,51 @@ namespace Data
             StateChange.Cancel();
         }
 
-
-
         public async void writeDataToLogger()
         {
-            while (this.isRunning)
+            bool isRootWritten = false;
+            XmlWriter writer = null;
+            try
             {
-                if (!ballsQueue.IsEmpty)
+                using (StreamWriter streamWriter = new StreamWriter(filename, true))
                 {
-                    while (ballsQueue.TryDequeue(out IBall ball))
+                    writer = XmlWriter.Create(streamWriter, new XmlWriterSettings() { Indent = true, OmitXmlDeclaration = true });
+                    writer.WriteStartElement("Balls");
+                    writer.Flush();
+                    isRootWritten = false;
+
+                    while (this.isRunning)
                     {
-                        using (StreamWriter streamWriter = new StreamWriter(filename, true))
-                        using (XmlWriter writer = XmlWriter.Create(streamWriter, new XmlWriterSettings() { Indent = true, OmitXmlDeclaration = true }))
+                        if (!ballsQueue.IsEmpty)
                         {
-                            DataContractSerializer xmlSer = new DataContractSerializer(typeof(Ball));
-                            xmlSer.WriteObject(writer, ball);
+                            while (ballsQueue.TryDequeue(out IBall ball))
+                            {
+                                DataContractSerializer xmlSer = new DataContractSerializer(typeof(Ball));
+                                xmlSer.WriteObject(writer, ball);
+                                writer.Flush();
+                                await Task.Delay(Timeout.Infinite, StateChange.Token).ContinueWith(_ => { });
+                            }
                         }
-                        await Task.Delay(Timeout.Infinite, StateChange.Token).ContinueWith(_ => { });
                     }
+                    isRootWritten = true;
+                    writer.WriteEndElement();
+                    writer.Flush();
+                    writer.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing to log: {ex.Message}");
+            }
+            finally
+            {
+                if (!isRootWritten && writer != null)
+                {
+                    writer.WriteEndElement();
+                    writer.Flush();
+                    writer.Close();
                 }
             }
         }
-
     }
 }

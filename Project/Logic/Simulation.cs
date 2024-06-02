@@ -64,6 +64,7 @@ namespace Logic
                 {
                     b.destroy();
                 }
+                this.board.stopLogger();
             }
         }
 
@@ -148,15 +149,33 @@ namespace Logic
         {
             lock(lockk)
             {
-                if (ball.Pos.X + ball.getSize() >= board.sizeX || ball.Pos.X + ball.vel.X + ball.getSize() >= board.sizeX ||
-                    ball.Pos.X <= 0 || ball.Pos.X + ball.vel.X <= 0)
+                if (ball.Pos.X + ball.getSize() >= board.sizeX || ball.Pos.X + ball.vel.X + ball.getSize() >= board.sizeX)
                 {
-                    Logic.changeXdirection(ball);
+                    if (ball.vel.X > 0)
+                    {
+                        Logic.changeXdirection(ball);
+                    }
                 }
-                if (ball.Pos.Y + ball.getSize() >= board.sizeY || ball.Pos.Y + ball.vel.Y + ball.getSize() >= board.sizeY ||
-                    ball.Pos.Y <= 0 || ball.Pos.Y + ball.vel.Y <= 0)
+                else if (ball.Pos.X <= 0 || ball.Pos.X + ball.vel.X <= 0)
                 {
-                    Logic.changeYdirection(ball);
+                    if (ball.vel.X < 0)
+                    {
+                        Logic.changeXdirection(ball);
+                    }
+                }
+                if (ball.Pos.Y + ball.getSize() >= board.sizeY || ball.Pos.Y + ball.vel.Y + ball.getSize() >= board.sizeY)
+                {
+                    if (ball.vel.Y > 0)
+                    {
+                        Logic.changeYdirection(ball);
+                    }
+                }
+                else if (ball.Pos.Y <= 0 || ball.Pos.Y + ball.vel.Y <= 0)
+                {
+                    if (ball.vel.Y < 0)
+                    {
+                        Logic.changeYdirection(ball);
+                    }
                 }
             }
         }

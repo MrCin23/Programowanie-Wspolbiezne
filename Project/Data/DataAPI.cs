@@ -22,5 +22,6 @@ namespace Data
         public abstract Vector2[] getCoordinates();
         public abstract void setBoardParameters(int x, int y, int ballsAmount);
         public abstract void clear();
+        public abstract void stopLogger();
     }
 }
