@@ -23,6 +23,7 @@ namespace Data
     {
         Vector2 Pos { get; }
         Vector2 vel { get; set; }
+        int ID { get; }
         float getSize();
         float getMass();
         void destroy();
@@ -30,7 +31,7 @@ namespace Data
         event EventHandler<DataEventArgs>? ChangedPosition;
     }
 
-    [DataContract]
+    
     internal class Ball : IBall
     {
         #nullable enable
@@ -38,16 +39,14 @@ namespace Data
 
         private float size { get; set; }
         private float density { get; set; }
-        [DataMember]
         public Vector2 pos { get; private set; }
         private Vector2 _vel { get; set; }
         public static readonly float maxVelocity = 0.2f;
         private bool running;
         private Thread thread;
         Stopwatch stopwatch;
-        private DataLogger logger;
-        [DataMember]
-        public int ID;
+        private DataLogger logger; //make as singleton
+        public int ID { get; }
 
 
         public Vector2 Pos
@@ -82,7 +81,10 @@ namespace Data
                         stopwatch.Restart();
                         stopwatch.Start();
                         move(time);
-                        logger.addToQueue(this);
+                        lock (this)
+                        {
+                            logger.addToQueue(this);
+                        }
                         int timeToSleep = (int)Math.Ceiling(Math.Sqrt(Math.Pow(this.vel.X * 100, 2) + Math.Pow(this.vel.Y * 100, 2)));
                         if (timeToSleep < 10)
                         {
@@ -126,7 +128,6 @@ namespace Data
             this.thread.Interrupt();
         }
 
-        [DataMember]
         public Vector2 vel
         {
             get { return _vel; }

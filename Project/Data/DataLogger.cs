@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime;
@@ -18,17 +20,20 @@ namespace Data
 {
     internal class DataLogger
     {
-        private ConcurrentQueue<IBall> ballsQueue;
+        private ConcurrentQueue<BallRecord> ballsQueue;
         private string filename;
         private CancellationTokenSource StateChange = new CancellationTokenSource();
         private bool isRunning;
+        private readonly object lockObject = new object();
+        private const int MaxBufferSize = 1024 * 1024;
+
 
         public DataLogger(string filename = "Logger.xml")
         {
             string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.FullName;
             this.filename = Path.Combine(path, filename);
             File.Create(this.filename).Close();
-            ballsQueue = new ConcurrentQueue<IBall>();
+            ballsQueue = new ConcurrentQueue<BallRecord>();
             this.isRunning = true;
             Task.Run(writeDataToLogger);
         }
@@ -40,8 +45,19 @@ namespace Data
 
         public void addToQueue(IBall ball)
         {
-            ballsQueue.Enqueue(ball);
-            StateChange.Cancel();
+            lock (lockObject)
+            {
+                if (ballsQueue.Count < MaxBufferSize)
+                {
+                    BallRecord ballRecord = new BallRecord(ball.Pos.X, ball.Pos.Y, ball.vel.X, ball.vel.Y, ball.ID, DateTime.Now); 
+                    ballsQueue.Enqueue(ballRecord);
+                    StateChange.Cancel();
+                }
+                else
+                {
+                    Debug.WriteLine("Queue overflow!");
+                }
+            }
         }
 
         public async void writeDataToLogger()
@@ -61,9 +77,9 @@ namespace Data
                     {
                         if (!ballsQueue.IsEmpty)
                         {
-                            while (ballsQueue.TryDequeue(out IBall ball))
+                            while (ballsQueue.TryDequeue(out BallRecord ball))
                             {
-                                DataContractSerializer xmlSer = new DataContractSerializer(typeof(Ball));
+                                DataContractSerializer xmlSer = new DataContractSerializer(typeof(BallRecord));
                                 xmlSer.WriteObject(writer, ball);
                                 writer.Flush();
                                 await Task.Delay(Timeout.Infinite, StateChange.Token).ContinueWith(_ => { });
@@ -78,15 +94,15 @@ namespace Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error writing to log: {ex.Message}");
+                Debug.WriteLine($"Error writing to log: {ex.Message}");
             }
             finally
             {
                 if (!isRootWritten && writer != null)
                 {
                     writer.WriteEndElement();
-                    writer.Flush();
-                    writer.Close();
+                    //writer.Flush();
+                    //writer.Close();
                 }
             }
         }

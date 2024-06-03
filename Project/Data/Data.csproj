@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ball.cs" />
+    <Compile Include="BallRecord.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="DataAPI.cs" />
     <Compile Include="DataEventArgs.cs" />
