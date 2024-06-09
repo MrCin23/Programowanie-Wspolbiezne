@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace Data
 {
@@ -17,7 +11,6 @@ namespace Data
 
     internal class Board : DataAbstractAPI
     {
-        DataLogger logger;
         public override int sizeX { get; set; }
         public override int sizeY { get; set; }
 
@@ -54,26 +47,18 @@ namespace Data
             IBall[] balls = new IBall[amount];
             for (int i = 0; i < balls.Length; i++)
             {
-                balls[i] = new Ball(i, maxX, maxY, logger);
+                balls[i] = new Ball(i, maxX, maxY);
             }
             this.balls = balls;
         }
 
         public override void stopLogger()
         {
-            logger.stopRunning();
+            DataLogger.GetInstance().stopRunning();
         }
 
-        public Board(DataLogger logger = null)
+        public Board()
         {
-            if (logger == null)
-            {
-                this.logger = new DataLogger();
-            }
-            else
-            {
-                this.logger = logger;
-            }
         }
 
         public override Vector2[] getCoordinates()

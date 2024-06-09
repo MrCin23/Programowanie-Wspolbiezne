@@ -11,17 +11,17 @@ namespace Data
     internal record struct BallRecord
     {
         [DataMember]
-        public float posX { get; }
+        public float posX { get; private set; }
         [DataMember]
-        public float posY { get; }
+        public float posY { get; private set; }
         [DataMember]
-        public float velX { get; }
+        public float velX { get; private set; }
         [DataMember]
-        public float velY { get; }
+        public float velY { get; private set; }
         [DataMember]
-        public int id { get; }
+        public int id { get; private set; }
         [DataMember]
-        public string time { get; }
+        public DateTime time { get; private set; }
         internal BallRecord(float posX, float posY, float velX, float velY, int id, DateTime time)
         {
             this.posX = posX;
@@ -29,7 +29,7 @@ namespace Data
             this.velX = velX;
             this.velY = velY;
             this.id = id;
-            this.time = time.ToString();
+            this.time = time;
         }
     }
 }

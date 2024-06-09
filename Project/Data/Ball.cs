@@ -45,7 +45,8 @@ namespace Data
         private bool running;
         private Thread thread;
         Stopwatch stopwatch;
-        private DataLogger logger; //make as singleton
+        private DataLogger logger;
+        private readonly Object lockObject = new Object();
         public int ID { get; }
 
 
@@ -61,16 +62,16 @@ namespace Data
         }
 
         Random rnd = new Random();
-        public Ball(int ID, int maxX, int maxY, DataLogger logger)
+        public Ball(int ID, int maxX, int maxY)
         {
             this.ID = ID;
-            this.logger = logger;
             this.size = 10.0f;
             this.density = 10;
             this.pos = new Vector2(randomPosition(maxX), randomPosition(maxY));
             this.vel = new Vector2(randomVelocity(), randomVelocity());
             this.running = true;
             stopwatch = new Stopwatch();
+            this.logger = DataLogger.GetInstance();
             this.thread = new Thread(() =>
             {
                 try
@@ -81,7 +82,7 @@ namespace Data
                         stopwatch.Restart();
                         stopwatch.Start();
                         move(time);
-                        lock (this)
+                        lock (lockObject)
                         {
                             logger.addToQueue(this);
                         }

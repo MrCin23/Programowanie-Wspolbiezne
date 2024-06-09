@@ -18,7 +18,7 @@ using System.Xml.Serialization;
 [assembly: InternalsVisibleTo("Program.XmlSerializers")]
 namespace Data
 {
-    internal class DataLogger
+    internal sealed class DataLogger
     {
         private ConcurrentQueue<BallRecord> ballsQueue;
         private string filename;
@@ -27,8 +27,20 @@ namespace Data
         private readonly object lockObject = new object();
         private const int MaxBufferSize = 1024 * 1024;
 
+        private static DataLogger _instance;
 
-        public DataLogger(string filename = "Logger.xml")
+        public static DataLogger GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new DataLogger();
+            }
+            return _instance;
+        }
+
+
+
+        private DataLogger(string filename = "Logger.xml")
         {
             string path = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.Parent.FullName;
             this.filename = Path.Combine(path, filename);
@@ -101,8 +113,8 @@ namespace Data
                 if (!isRootWritten && writer != null)
                 {
                     writer.WriteEndElement();
-                    //writer.Flush();
-                    //writer.Close();
+                    writer.Flush();
+                    writer.Close();
                 }
             }
         }
