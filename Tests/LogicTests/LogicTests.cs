@@ -15,6 +15,8 @@ namespace LogicTests
 
         public Vector2 vel { get ; set; }
 
+        public int ID => throw new NotImplementedException();
+
         private float density;
         private float size;
 

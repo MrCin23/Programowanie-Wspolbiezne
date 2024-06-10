@@ -13,6 +13,8 @@ namespace DataTests
 
         public Vector2 vel { get; set; }
 
+        public int ID => throw new NotImplementedException();
+
         public event EventHandler<DataEventArgs>? ChangedPosition;
 
         public void destroy()
